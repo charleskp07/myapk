@@ -1,0 +1,32 @@
+@extends('layouts.authchecked')
+
+@section('title', 'Paramètres')
+
+
+@section('content')
+    <h1>
+        Paramètres
+    </h1>
+
+
+
+    <nav>
+        <ul>
+            <li>
+                <a href="{{route('admin.settings.notes.index')}}">
+                    <div>
+                        Paramétrage des notes
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{route('admin.breakdown.index')}}">
+                    <div>
+                        Paramétrage des decoupages annuels
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+@endsection

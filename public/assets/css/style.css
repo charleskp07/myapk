@@ -1,0 +1,93 @@
+:root {
+    --primary-color: #4a6fa5;
+    --my-color: #4d49be;
+    --primary-light: #e8f1f5;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --border-color: #dee2e6;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.alert-success {
+    color: var(--success-color);
+}
+
+.form-errors-list{
+    color: var(--danger-color);
+}
+
+html,body {
+    background-color: #D9EFFF;
+    font-family: "Roboto", sans-serif;
+} 
+
+
+.more-icon {
+    cursor: pointer;
+}
+
+table.customTable {
+  width: 100%;
+  background-color: #FFFFFF;
+  border-collapse: collapse;
+  border-width: 1px;
+  border-color: var(--secondary-color);
+  border-style: solid;
+  color: #000000;
+}
+
+table.customTable td,
+table.customTable th {
+  border-width: 1px;
+  border-color: var(--secondary-color);
+  border-style: solid;
+  padding: 5px;
+}
+
+table.customTable thead {
+  background-color: #DDDDDD;
+}
+
+/* .datatables-cover {
+    border: 1px solid #CCC;
+    padding: 10px 20px;
+    border-radius: 10px;
+} */
+
+
+
+
+
+
+
+
+@font-face {
+    font-family: poppins-black;
+    src: url(../fonts/Poppins/Poppins-Black.ttf);
+}
+
+@font-face {
+    font-family: poppins-bold;
+    src: url(../fonts/Poppins/Poppins-Bold.ttf);
+}
+
+@font-face {
+    font-family: poppins-medium;
+    src: url(../fonts/Poppins/Poppins-Medium.ttf);
+}
+
+@font-face {
+    font-family: poppins-regular;
+    src: url(../fonts/Poppins/Poppins-Regular.ttf);
+}
