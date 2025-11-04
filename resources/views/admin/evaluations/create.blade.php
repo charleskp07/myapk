@@ -6,7 +6,7 @@
 
     <div>
         <div>
-            <h2 class="roboto-black text-center">Créer une nouvelle évaluation</h2>
+            <h2 class="">Créer une nouvelle évaluation</h2>
             <br />
             <p class="text-center">
                 Remplir dans les champs les informations de l'evaluation que vous voulez créer.
@@ -43,7 +43,7 @@
                                 {{ $breakdown->name }}
                             </option>
                         @empty
-                            <option value="">Aucun decoupage</option>
+                            <option value="">Aucun decoupage n'a été defini</option>
                         @endforelse
                     </select>
                 </div>
@@ -63,7 +63,7 @@
                                 {{ $assignation->classroom->section }}
                             </option>
                         @empty
-                            <option value="">Aucune assignation</option>
+                            <option value="">Aucune assignation n'a ete enregistrée</option>
                         @endforelse
                     </select>
                 </div>
@@ -106,7 +106,7 @@
                                 Sur {{ $bareme->value }}
                             </option>
                         @empty
-                            <option value="">Pas de note maximale</option>
+                            <option value="">Aucun note maximale n'a été defini</option>
                         @endforelse
                     </select>
                 </div>

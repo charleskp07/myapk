@@ -4,7 +4,7 @@
     @include('includes.sidebar')
     <div class="wrap-content">
         {{-- @include('includes.appbar') --}}
-        <br /><br /><br /><br />
+        <br /><br />
         @yield('content')
     </div>
 @endsection

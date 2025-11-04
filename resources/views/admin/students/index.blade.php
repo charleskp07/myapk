@@ -6,7 +6,7 @@
     <div>
         <h1>Gestion des apprenant(e)s</h1>
 
-        <a href="{{ route('students.create') }}">
+        <a href="{{ route('students.create') }}" >
             Ajouter un(e) apprenant(e)
         </a>
     </div>
@@ -25,7 +25,7 @@
         </div>
     @else
         <div class="datatables-cover">
-            <table id="datatables" class="display customTable">
+            <table id="datatables" class="display">
                 <thead>
                     <tr>
                         <th>
@@ -37,10 +37,10 @@
                         </th>
 
                         <th>
-                            Date de naissance
+                            Classe
                         </th>
 
-                        <th>
+                        <th width="40">
 
                         </th>
                     </tr>
@@ -58,8 +58,9 @@
                             </td>
 
                             <td onclick='onRowClick("{{ $student->id }}")'>
-                                {{ $student->date_of_birth }}
+                                {{ $student->classroom->name }}-{{ $student->classroom->section }}
                             </td>
+
                             <td>
                                 <div class="dropdown-cover">
                                     <button class="more-icon" data-target="dropdown-parent-{{ $student->id }}">
@@ -90,6 +91,7 @@
                                                     @method('DELETE')
                                                     <button>
                                                         <i class="fa-solid fa-trash"></i>
+                                                        {{-- <i class="bi bi-trash3"></i> --}}
                                                         Supprimer
                                                     </button>
                                                 </form>

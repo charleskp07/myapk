@@ -3,11 +3,11 @@
 @section('title', 'Ajouter un(e) apprenant(e)')
 
 @section('content')
-    <div>
+    <div class="dashboard-cover">
         <div>
-            <h2 class="roboto-black text-center">Ajouter un(e) apprenant(e)</h2>
+            <h2>Ajouter un(e) apprenant(e)</h2>
             <br />
-            <p class="text-center">
+            <p >
                 Remplir dans les champs les informations de l'apprenant(e) que vous voulez créer.
             </p>
             <br />
@@ -28,7 +28,7 @@
             <form action="{{ route('students.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
-                <div class="">
+                <div class="input-cover">
                     <label for="photo" class="form-label">Photo</label>
                     <input type="file" id="photo" name="photo" accept="image/png,image/jpg,/image/jpeg">
                 </div>
@@ -39,7 +39,7 @@
                         <option value="">Sélectionnez une classe...</option>
                         @forelse ($classrooms as $classroom)
                             <option value="{{ $classroom->id }}"
-                                {{ old('classroom_id') == $classroom->id ? 'selected' : '' }}>
+                                {{ (isset($classroom_id) && $classroom_id == $classroom->id) || old('classroom_id') == $classroom->id ? 'selected' : '' }}>
                                 {{ $classroom->name }} {{ $classroom->section }}
                             </option>
 

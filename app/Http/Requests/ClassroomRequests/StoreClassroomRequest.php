@@ -25,8 +25,8 @@ class StoreClassroomRequest extends FormRequest
     {
         return [
             'level' => ['required', Rule::in([
-               ClassroomLevelEnums::COLLEGE->value,
-               ClassroomLevelEnums::LYCEE->value,
+                ClassroomLevelEnums::COLLEGE->value,
+                ClassroomLevelEnums::LYCEE->value,
             ])],
             'name' => [
                 'required',
@@ -37,6 +37,7 @@ class StoreClassroomRequest extends FormRequest
                 })
             ],
             'section' => 'nullable|string|max:50',
+            'teacher_id' => 'nullable|exists:teachers,id|unique:classrooms,teacher_id',
         ];
     }
 
@@ -49,6 +50,9 @@ class StoreClassroomRequest extends FormRequest
             'name.max' => 'Le nom ne doit pas dépasser 50 caractères',
             'name.unique' => 'Cette classe existe déjà pour ce niveau',
             'section.max' => 'La section ne doit pas dépasser 50 caractères',
+            'teacher_id.exists' => 'l\'enseignant sélectionné est invalide.',
+            'teacher_id.unique' => 'Cet enseignant est déjà assigné à cette classe.',
+
         ];
     }
 

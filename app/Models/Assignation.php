@@ -37,5 +37,5 @@ class Assignation extends Model
     {
         return $this->hasMany(Evaluation::class);
     }
-    //
+
 }

@@ -23,10 +23,10 @@ class NoteAppreciation extends Model
     {
         return $this->belongsTo(Bareme::class);
     }
-    
 
     public function notes(): HasMany
     {
         return $this->hasMany(Note::class);
     }
+
 }

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('note_appreciations', function (Blueprint $table) {
             $table->id();
-             $table->foreignIdFor(Bareme::class);
+            $table->foreignIdFor(Bareme::class);
             $table->enum('appreciation', [
                 NoteAppreciationEnums::MEDIOCRE->value,
                 NoteAppreciationEnums::INSUFFISANT->value,
@@ -25,8 +25,8 @@ return new class extends Migration
                 NoteAppreciationEnums::TRES_BIEN->value,
                 NoteAppreciationEnums::EXCELLENT->value,
             ]);
-            $table->integer('min_value');
-            $table->integer('max_value');
+            $table->float('min_value');
+            $table->float('max_value');
             $table->timestamps();
         });
     }

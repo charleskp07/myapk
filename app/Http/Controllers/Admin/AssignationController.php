@@ -10,6 +10,8 @@ use App\Interfaces\ClassroomInterface;
 use App\Interfaces\SubjectInterface;
 use App\Interfaces\TeacherInterface;
 use App\Models\Assignation;
+use App\Models\Classroom;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class AssignationController extends Controller
@@ -48,12 +50,18 @@ class AssignationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        $classroom = Classroom::find($request->classroom_id);
+        $teacher = Teacher::find($request->teacher_id);
         return view("admin.assignations.create", [
             'classrooms' => $this->classroomInterface->index(),
             'teachers' => $this->teacherInterface->index(),
             'subjects' => $this->subjectInterface->index(),
+            'classroom_id' => $request->classroom_id,
+            'classroom' => $classroom,
+            'teacher_id' => $request->teacher_id,
+            'teacher' => $teacher,
             'page' => 'assignations',
         ]);
     }

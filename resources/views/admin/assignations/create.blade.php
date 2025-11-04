@@ -13,7 +13,7 @@
             </p>
             <br />
 
-            
+
             @if ($errors->any())
                 <ul class="form-errors-list">
                     @foreach ($errors->all() as $error)
@@ -23,74 +23,65 @@
                 <br />
             @endif
 
-            
+
             @if ($message = Session::get('success'))
                 <p class="alert-success">{{ $message }}</p>
                 <br />
             @endif
 
-            
+
             <form action="{{ route('assignations.store') }}" method="POST">
                 @csrf
 
-                
+
                 <div class="input-cover">
                     <label for="teacher_id">Enseignant </label>
                     <select id="teacher_id" name="teacher_id" class="@error('teacher_id') invalid @enderror">
                         <option value="">-- Sélectionner un enseignant --</option>
                         @foreach ($teachers as $teacher)
-                            <option value="{{ $teacher->id }}"
-                                {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
+                            <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
                                 {{ $teacher->last_name }} {{ $teacher->first_name }}
                             </option>
                         @endforeach
                     </select>
-                
+
                 </div>
 
-                
+
                 <div class="input-cover">
                     <label for="subject_id">Matière </label>
-                    <select id="subject_id" name="subject_id" >
+                    <select id="subject_id" name="subject_id">
                         <option value="">-- Sélectionner une matière --</option>
                         @foreach ($subjects as $subject)
-                            <option value="{{ $subject->id }}"
-                                {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
+                            <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
                                 {{ $subject->name }}
                             </option>
                         @endforeach
                     </select>
-                    
+
                 </div>
 
-                
+
                 <div class="input-cover">
                     <label for="classroom_id">Classe </label>
-                    <select id="classroom_id" name="classroom_id" >
+                    <select id="classroom_id" name="classroom_id">
                         <option value="">-- Sélectionner une classe --</option>
                         @foreach ($classrooms as $classroom)
                             <option value="{{ $classroom->id }}"
-                                {{ old('classroom_id') == $classroom->id ? 'selected' : '' }}>
+                                {{ (isset($classroom_id) && $classroom_id == $classroom->id) || old('classroom_id') == $classroom->id ? 'selected' : '' }}>
                                 {{ $classroom->name }} - {{ $classroom->section }}
                             </option>
                         @endforeach
                     </select>
-                
+
                 </div>
 
-               
+
                 <div class="input-cover">
                     <label for="coefficient">Coefficient </label>
-                    <input
-                        type="number"
-                        id="coefficient"
-                        name="coefficient"
-                        value="{{ old('coefficient', 1) }}"
-                        min="1"
-                        max="10"
-                        placeholder="Valeur entre 1 et 10"
-                    >
-                   
+                    <input type="number" id="coefficient" name="coefficient" value="{{ old('coefficient', 1) }}"
+                        min="1" max="10" placeholder="Valeur entre 1 et 10">
+
                 </div>
 
                 <div style="display:flex; gap:10px; margin-top:20px;">

@@ -7,9 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/style2.css') }}"> --}}
     <link rel="stylesheet" href="{{ URL::asset('assets/bootstrap/font/bootstrap-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/datatables/dataTables.bootstrap.css') }}">
-    
+    <link rel="stylesheet" href="{{ URL::asset('assets/datatables/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/datatables/datatables.responsive.min.css') }}">
+
+
     <title>
         @yield('title', 'Gestion Scolaire')
     </title>
@@ -19,10 +22,10 @@
 <body>
     @yield('base')
 
+    <script src="{{ asset('assets/chartjs/chart.min.js') }}"></script>
     <script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ URL::asset('assets/datatables/datatables.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/datatables/datatables.responsive.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.menu-item').each(function() {
@@ -33,14 +36,6 @@
                 })
             })
 
-            // $('.menu-button').click(function() {
-            //     $('.sidebar').css({
-            //         'transition-duration': '0.5s',
-            //         'transform': $('.sidebar').css('transform') == 'matrix(1, 0, 0, 1, -260, 0)' ?
-            //             'matrix(1, 0, 0, 1, 0, 0)' : 'matrix(1, 0, 0, 1, -260, 0)',
-            //     })
-            // })
-
             $('.more-icon').each(function() {
                 $(this).click(function() {
                     $('.dropdown-items:not(#' + $(this).attr('data-target') + ')').hide()
@@ -48,7 +43,18 @@
                 })
             })
         })
+
+
+        // const sidebar = document.querySelector('.sidebar');
+        // const toggleButton = document.querySelector('#sidebarToggle');
+
+        // toggleButton.addEventListener('click', () => {
+        //     sidebar.classList.toggle('collapsed');
+        // });
+
     </script>
+
+
 
     @yield('js')
 </body>

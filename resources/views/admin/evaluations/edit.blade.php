@@ -5,7 +5,7 @@
 @section('content')
     <div>
         <div>
-            <h2 class="roboto-black text-center">Modifier une évaluation</h2>
+            <h2 class="">Modifier une évaluation</h2>
             <br />
             <p class="text-center">
                 Mettre à jour les informations de l'évaluation sélectionnée.

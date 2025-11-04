@@ -2,6 +2,18 @@
 
 @section('title', 'Gestion des Matières')
 
+@section('css')
+    <style>
+        .detele-btn {
+            border: none;
+            background: none;
+            color: red;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div>
         <h1>Gestion des Matières</h1>
@@ -25,27 +37,40 @@
         </div>
     @else
         <div>
-            @foreach ($subjects as $subject)
-                <span>{{ $subject->name }}</span>
-                <a href="{{route('subjects.edit', $subject->id)}}">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                    Modifier
-                </a>
-                <a href="{{route('subjects.show', $subject->id)}}">
-                    <i class="fa-solid fa-list-ul"></i>
-                    Details
-                </a>
-                {{-- <form action="{{ route('subjects.destroy', $subject->id) }}" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="detele-btn"
-                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette Matière ?')">
-                        &nbsp;<i class="fas fa-trash"></i>Supprimer
-                    </button>
+            <table>
+                <tbody>
+                    @foreach ($subjects as $subject)
+                        <tr>
+                            <td>
+                                <span>{{ $subject->name }}</span>
+                            </td>
+    
+                            <td>
+                                <div style="display: flex">
+    
+                                    <a href="{{ route('subjects.edit', $subject->id) }}">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                        Modifier
+                                    </a>
+                                    
+                                    <form action="{{ route('subjects.destroy', $subject->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="detele-btn"
+                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette Matière ?')">
+                                            <i class="bi bi-trash3"></i></i>Supprimer
+                                        </button>
+    
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-                </form> --}}
-                <br />
-            @endforeach
+
+
         </div>
     @endif
 

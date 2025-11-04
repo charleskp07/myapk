@@ -2,43 +2,6 @@
 
 @section('title', 'Gestion des assignations')
 
-@section('css')
-    <style>
-        h2,
-        h3 {
-            text-align: center;
-            font-family: "Roboto", sans-serif;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        th,
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e0e0;
-            text-align: left;
-            font-size: 15px;
-        }
-
-        th {
-            background: #ececec;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background: #f3f8ff;
-            transition: background 0.2s ease;
-        }
-    </style>
-@endsection
 
 @section('content')
     <div>
@@ -61,13 +24,14 @@
         </div>
     @else
         <div class="datatables-cover">
-            <table id="datatables" class="display">
+            <table id="datatables">
                 <thead>
                     <tr>
                         <th>Salle de classe</th>
                         <th>Enseignant</th>
                         <th>Matière</th>
-                        <th width=""></th>
+                        <th>Coefficient</th>
+                        <th width="40"></th>
                     </tr>
                 </thead>
 
@@ -75,18 +39,22 @@
                     @foreach ($assignations as $assignation)
                         <tr>
 
-                            <td onclick='onRowClick("{{ $assignation->id }}")'>
+                            <td onclick='onRowClick("{{ $assignation->teacher->id }}")'>
                                 {{ $assignation->classroom->name }} - {{ $assignation->classroom->section }}
                             </td>
 
 
-                            <td onclick='onRowClick("{{ $assignation->id }}")'>
-                                {{ $assignation->teacher->first_name }} {{ $assignation->teacher->last_name }}
+                            <td onclick='onRowClick("{{ $assignation->teacher->id }}")'>
+                                {{ $assignation->teacher->last_name }} {{ $assignation->teacher->first_name }}
                             </td>
 
 
-                            <td onclick='onRowClick("{{ $assignation->id }}")'>
+                            <td onclick='onRowClick("{{ $assignation->teacher->id }}")'>
                                 {{ $assignation->subject->name }}
+                            </td>
+
+                            <td onclick='onRowClick("{{ $assignation->teacher->id }}")'>
+                                {{ $assignation->coefficient }}
                             </td>
 
 
@@ -153,10 +121,5 @@
             window.location.href = `teachers/${id}`;
         }
 
-        // petit effet de surbrillance au survol des lignes
-        document.querySelectorAll("tbody tr").forEach(row => {
-            row.addEventListener("mouseover", () => row.style.backgroundColor = "#eaf2ff");
-            row.addEventListener("mouseout", () => row.style.backgroundColor = "");
-        });
     </script>
 @endsection

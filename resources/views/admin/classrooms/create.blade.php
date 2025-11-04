@@ -6,7 +6,7 @@
 
     <div>
         <div>
-            <h2 class="roboto-black text-center">Créer une salle de classe</h2>
+            <h1 class="">Créer une salle de classe</h1>
             <br />
             <p class="text-center">
                 Remplir dans les champs les informations de la salle de classe que vous voulez créer.
@@ -49,8 +49,23 @@
                 </div>
 
                 <div class="input-cover">
-                    <label for="section" class="form-label">Section</label>
-                    <input type="text" class="" id="section" name="section" value="{{ old('section') }}"  placeholder="Ex: Groupe A, Serie A4, ...">
+                    <label for="section" >Section</label>
+                    <input type="text" id="section" name="section" value="{{ old('section') }}"  placeholder="Ex: Groupe A, Serie A4, ...">
+                </div>
+
+                <div class="input-cover">
+                    <label for="teacher_id" >Enseignant Titulaire</label>
+                    <select name="teacher_id" id="teacher_id">
+                        <option value="">--Selectionner un enseignant--</option>
+                        @forelse ($teachers as $teacher)
+                            <option value="{{$teacher->id}}"  {{old('teacher_id') == $teacher->id ? 'selected' : ''}}>
+                                {{$teacher->last_name}} {{$teacher->first_name}}
+                            </option>
+                            
+                        @empty
+                            <option value="">aucun enseignant n'a été trouvé</option>
+                        @endforelse
+                    </select>
                 </div>
 
                  <div style="display:flex; gap:10px; margin-top:20px;">

@@ -7,28 +7,33 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequests\StoreStudentRequest;
 use App\Http\Requests\StudentRequests\UpdateStudentRequest;
 use App\Interfaces\ClassroomInterface;
+use App\Interfaces\NoteInterface;
 use App\Interfaces\StudentInterface;
 use App\Interfaces\UserInterface;
+use App\Models\Classroom;
 use App\Models\Student;
-
+use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
     private UserInterface $userInterface;
     private ClassroomInterface $classroomInterface;
     private StudentInterface $studentInterface;
+    private NoteInterface $noteInterface;
 
     public function __construct(
         UserInterface $userInterface,
         ClassroomInterface $classroomInterface,
         StudentInterface $studentInterface,
+        NoteInterface $noteInterface,
 
     ) {
         $this->userInterface = $userInterface;
         $this->classroomInterface = $classroomInterface;
         $this->studentInterface = $studentInterface;
+        $this->noteInterface = $noteInterface;
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -43,10 +48,13 @@ class StudentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        $classroom = Classroom::find($request->classroom_id);
         return view("admin.students.create", [
             'classrooms' => $this->classroomInterface->index(),
+            'classroom_id' => $request->classroom_id,
+            'classroom' => $classroom,
             'page' => 'students',
         ]);
     }
@@ -113,6 +121,7 @@ class StudentController extends Controller
     {
         return view("admin.students.show", [
             'student' => $this->studentInterface->show($id),
+            // 'notes' => $this->noteInterface->index(),
             'page' => 'students',
         ]);
     }
@@ -177,6 +186,11 @@ class StudentController extends Controller
         $student = Student::find($id);
 
         $user_id = $student->user_id;
+
+        if ($student->notes()->exists()) {
+            return redirect()->back()
+                ->with('error', 'Impossible de supprimer cet(te) apprenant(") car elle est liés à des notes');
+        }
 
         try {
 

@@ -1,13 +1,21 @@
 @extends('layouts.authchecked')
 
 @section('content')
-    <div class="dashboard-cover">
+    <div class="profile-edit-cover">
         <div class="d-grid-2" style="gap: 40px;">
             <div class="text-right" style="padding-top: 5px;">
                 <img src="{{ Auth::user()->data && Auth::user()->data->profile_picture
                     ? Storage::url(Auth::user()->data->profile_picture)
                     : URL::asset('images/default-avatar.png') }}"
                     alt="{{ Auth::user()->name }}" width="200" height="200" class="rounded-sm" />
+
+                <button type="button" id="uploadButton">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    {{Auth::user()->data && Auth::user()->data->profile_picture ? 
+                        "Modifier la photo" :
+                        "Ajouter une photo"
+                    }}
+                </button>
 
                 @if (Auth::user()->data && Auth::user()->data->profile_picture)
                     <form action="{{ route('profile.photo.delete') }}" method="POST" style="margin-top: 10px;">
@@ -19,10 +27,13 @@
                         </button>
                     </form>
                 @endif
-                
+
             </div>
+
+
+
             <div>
-                <div style="max-width: 325px;">
+                <div style="">
                     <h1 class="roboto-black text-center">Modifier mon profil</h1>
                     <br />
                     <p class="text-center">
@@ -48,9 +59,9 @@
                         @method('PUT')
 
                         <div class="input-cover">
-                            <label for="profile-picture">Photo de profil</label>
-                            <input type="file" id="profile-picture" name="profile_picture"
-                                accept="image/png,image/jpg,/image/jpeg" />
+                            {{-- <label for="profile-picture">Photo de profil</label> --}}
+                            <input type="file" id="fileInput" name="profile_picture"
+                                accept="image/*" style="display: none;" />
                         </div>
 
                         <div class="d-grid-2">
@@ -91,4 +102,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        document.getElementById('uploadButton').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+    </script>
 @endsection

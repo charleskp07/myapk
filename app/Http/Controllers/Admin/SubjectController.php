@@ -70,10 +70,10 @@ class SubjectController extends Controller
      */
     public function show(string $id)
     {
-        return view("", [
-            'subject' => $this->subjectInterface->show($id),
-            'page' => 'subjects',
-        ]);
+        // return view("", [
+        //     'subject' => $this->subjectInterface->show($id),
+        //     'page' => 'subjects',
+        // ]);
     }
 
     /**
@@ -114,12 +114,13 @@ class SubjectController extends Controller
      */
     public function destroy(string $id)
     {
-        $subjects = Subject::find($id);
+        $subject = Subject::find($id);
 
-        if ($subjects->assignations()->exists()) {
+        if ($subject->assignations()->exists()) {
             return redirect()->back()
                 ->with('error', 'Impossible de supprimer cette Matière car elle est liés à des assignations');
         }
+        
         try {
 
             $this->subjectInterface->destroy($id);

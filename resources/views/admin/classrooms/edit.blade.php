@@ -57,6 +57,21 @@
                         placeholder="Ex: Groupe A, Serie A4, ...">
                 </div>
 
+
+                <div class="input-cover">
+                    <label for="teacher_id" >Enseignant Titulaire</label>
+                    <select name="teacher_id" id="teacher_id">
+                        <option value="">--Selectionner un enseignant--</option>
+                        @forelse ($teachers as $teacher)
+                            <option value="{{$teacher->id}}"  {{old('teacher_id',$classroom->teacher_id ) == $teacher->id ? 'selected' : ''}}>
+                                {{$teacher->last_name}} {{$teacher->first_name}}
+                            </option>        
+                        @empty
+                            <option value="">aucun enseignant n'a été trouvé</option>
+                        @endforelse
+                    </select>
+                </div>
+
                 <div style="display:flex; gap:10px; margin-top:20px;">
                     <button type="submit">Mettre à jour la salle de classe</button>
                     <a href="{{ route('classrooms.index') }}" class="btn-cancel">Annuler</a>

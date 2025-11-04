@@ -37,6 +37,10 @@ class Student extends Model
         return $this->belongsTo(classroom::class);
     }
 
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
 
     public function notes(): HasMany
     {

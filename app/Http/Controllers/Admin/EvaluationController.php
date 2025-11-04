@@ -83,9 +83,12 @@ class EvaluationController extends Controller
      */
     public function show(string $id)
     {
+        
         return view("admin.evaluations.show", [
             'evaluation' => $this->evaluationInterface->show($id),
             'page' => 'evaluations',
+
+
         ]);
     }
 
@@ -97,6 +100,8 @@ class EvaluationController extends Controller
         return view("admin.evaluations.edit", [
             'evaluation' => $this->evaluationInterface->show($id),
             'assignations' => $this->assignationInterface->index(),
+            'baremes' => Bareme::all(),
+            'breakdowns' => Breakdown::all(),
             'page' => 'evaluations',
         ]);
     }

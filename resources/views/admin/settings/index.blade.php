@@ -21,7 +21,7 @@
             </li>
 
             <li>
-                <a href="{{route('admin.breakdown.index')}}">
+                <a href="{{route('admin.breakdowns.index')}}">
                     <div>
                         Paramétrage des decoupages annuels
                     </div>

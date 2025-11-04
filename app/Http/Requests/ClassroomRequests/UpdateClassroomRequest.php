@@ -43,6 +43,7 @@ class UpdateClassroomRequest extends FormRequest
                     ->ignore($classroom_id)
             ],
             'section' => 'nullable|string|max:100',
+            'teacher_id' => 'nullable|exists:teachers,id|unique:classrooms,teacher_id',
         ];
     }
 
@@ -54,6 +55,8 @@ class UpdateClassroomRequest extends FormRequest
             'name.required' => 'Le nom de la classe est requis',
             'name.max' => 'Le nom ne doit pas dépasser 50 caractères',
             'name.unique' => 'Cette classe existe déjà pour ce niveau',
+            'teacher_id.exists' => 'l\'enseignant sélectionné est invalide.',
+            'teacher_id.unique' => 'Cet enseignant est déjà assigné à cette classe.',
         ];
     }
 

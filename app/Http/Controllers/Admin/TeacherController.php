@@ -172,6 +172,11 @@ class TeacherController extends Controller
 
         $user_id = $teacher->user_id;
 
+        if ($teacher->assignations()->exists()) {
+            return redirect()->back()
+                ->with('error', 'Impossible de supprimer cette Matière car elle est liés à des assignations');
+        }
+
         try {
 
             $this->teacherInterface->destroy($id);

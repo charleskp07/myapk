@@ -10,19 +10,20 @@
 @endsection
 
 @section('content')
-    <div class="dashboard-cover text-center">
+    <div class="profile-cover text-center">
         <br />
         <img src="{{ Auth::user()->data && Auth::user()->data->profile_picture
             ? Storage::url(Auth::user()->data->profile_picture)
             : URL::asset('images/default-avatar.png') }}"
-            alt="{{ Auth::user()->name }}" width="200" height="200" class="rounded-sm" />
-        <br /><br />
-        <h1 style="margin-bottom: 10px;" class="roboto-black">
+            alt="{{ Auth::user()->name }}" class="rounded-sm" />
+        <br /><br /><br />
+        <h2 style="margin-bottom: 10px;" class="roboto-black">
             {{ Auth::user()->name }}
-        </h1>
+        </h2>
         <p>
-            <span class="roboto-black">Email :</span> {{ Auth::user()->email }}
+            <span style="font-weight: 700">Email :</span> {{ Auth::user()->email }}
         </p>
+        <br />
         <br />
         <div class="center-aligned-button">
             <a href="{{ route('profile.edit') }}" class="button button-primary">
@@ -30,9 +31,10 @@
                 Modifier mon profil
             </a>
         </div>
-
+        <br />
         <div class="center-aligned-button">
-            <a href="{{ route('logout') }}" class="button button-primary">
+            <a href="{{ route('logout') }}" style="color: red"
+                onclick="return confirm('Êtes-vous sûr(e) de vouloir vous deconnectez ?')">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 Deconnexion
             </a>

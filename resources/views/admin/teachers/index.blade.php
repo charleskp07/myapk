@@ -26,7 +26,7 @@
         </div>
     @else
         <div class="datatables-cover">
-            <table id="datatables" class="display customTable">
+            <table id="datatables" class="display">
                 <thead>
                     <tr>
                         <th>Nom de famille</th>

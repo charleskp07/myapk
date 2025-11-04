@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassroomRequests\StoreClassroomRequest;
 use App\Http\Requests\ClassroomRequests\UpdateClassroomRequest;
 use App\Interfaces\ClassroomInterface;
+use App\Interfaces\TeacherInterface;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 
@@ -13,11 +14,15 @@ class ClassroomController extends Controller
 {
 
     private ClassroomInterface $classroomInterface;
+    private TeacherInterface $teacherInterface;
+
 
     public function __construct(
         ClassroomInterface $classroomInterface,
+        TeacherInterface $teacherInterface,
     ) {
         $this->classroomInterface = $classroomInterface;
+        $this->teacherInterface = $teacherInterface;
     }
 
     /**
@@ -35,8 +40,9 @@ class ClassroomController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
+    {      
         return view("admin.classrooms.create", [
+            'teachers' => $this->teacherInterface->index(),
             'page' => 'classrooms',
         ]);
     }
@@ -50,6 +56,7 @@ class ClassroomController extends Controller
             'level' => $request->level,
             'name' => $request->name,
             'section' => $request->section,
+            'teacher_id' => $request->teacher_id,
         ];
 
         try {
@@ -82,6 +89,7 @@ class ClassroomController extends Controller
     {
         return view("admin.classrooms.edit", [
             'classroom' => $this->classroomInterface->show($id),
+            'teachers' => $this->teacherInterface->index(),
             'page' => 'classrooms',
         ]);
     }
@@ -95,6 +103,7 @@ class ClassroomController extends Controller
             'level' => $request->level,
             'name' => $request->name,
             'section' => $request->section,
+            'teacher_id' => $request->teacher_id,
         ];
 
         try {

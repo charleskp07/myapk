@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AssignationController;
 use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\EvaluationController;
+use App\Http\Controllers\Admin\NoteController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\Settings\AppreciationSettingController;
 use App\Http\Controllers\Admin\Settings\BaremeSettingController;
@@ -19,8 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainController::class, "home"])->name("home");
 
-Route::get('/Login', [AuthController::class, "login"])->name("login");
-Route::post('/Login', [ProcessingAuthController::class, "login"])->name("login");
+Route::get('/login', [AuthController::class, "login"])->name("login");
+Route::post('/Login', [ProcessingAuthController::class, "login"])->name("auth.login");
 
 Route::get('/two-factor', [AuthController::class, 'showTwoFactorForm'])->name('auth.two-factor');
 Route::post('/two-factor/verify', [ProcessingAuthController::class, 'verifyTwoFactor'])->name('auth.two-factor.verify');
@@ -46,6 +48,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/subjects', SubjectController::class);
     Route::resource('/assignations', AssignationController::class);
     Route::resource('/evaluations', EvaluationController::class);
+    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
+    Route::get('/notes/{id}/edit', [NoteController::class, 'edit'])->name('notes.edit');
+    Route::put('/notes/{id}/update', [NoteController::class, 'update'])->name('notes.update');
+    Route::post('/notes/store', [NoteController::class, 'store'])->name('notes.store');
+    Route::resource('/payments', PaymentController::class);
     
     
     //Routes des paramtrages
