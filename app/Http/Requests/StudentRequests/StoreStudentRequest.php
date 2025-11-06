@@ -36,7 +36,7 @@ class StoreStudentRequest extends FormRequest
                GenderEnums::FEMININ->value,
                GenderEnums::MASCULIN->value,
             ])],
-            'email' => 'required|email|unique:students,email',
+            'email' => 'nullable|email|unique:students,email',
         ];
     }
 
@@ -56,10 +56,9 @@ class StoreStudentRequest extends FormRequest
             'place_of_birth.required' => 'Le lieu de naissance est requis',
             'gender.required' => 'Le genre est requis',
             'gender.in' => 'Le genre sélectionné n\'est pas valide.',
-            'email.required' => 'L\'email est requis',
+            'email.nullable' => 'L\'email est requis',
             'email.email' => 'L\'email doit être une adresse valide',
             'email.unique' => 'Cet email est déjà utilisé',
-            'nationality.required' => 'La nationalité est requise',
         ];
     }
 

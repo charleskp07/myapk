@@ -11,7 +11,8 @@ class Breakdown extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'type',
+        'value',
         'start_date',
         'end_date',
     ];

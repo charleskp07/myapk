@@ -9,6 +9,7 @@ use App\Interfaces\ClassroomInterface;
 use App\Interfaces\TeacherInterface;
 use App\Models\Breakdown;
 use App\Models\Classroom;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
@@ -206,5 +207,18 @@ class ClassroomController extends Controller
             'labels' => ['Excellent', 'Très bien', 'Bien', 'Assez-bien', 'Passable', 'Insuffisant', 'Médiocre'],
             'data' => array_values($states),
         ]);
+    }
+
+    public function exportStudentsListPdf(Request $request) 
+    {
+
+        $classroom = Classroom::find($request->classroom_id);
+        
+        $pdf = Pdf::loadView('admin.pdf.students.list', [
+            'classroom' => $classroom,
+        ]);
+
+        return $pdf->stream("Bulletin_{$classroom->name}_{$classroom->section}.pdf");
+
     }
 }

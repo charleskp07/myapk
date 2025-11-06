@@ -12,5 +12,4 @@ enum NoteAppreciationEnums: string
     case INSUFFISANT = 'Insuffisant';
     case MEDIOCRE = 'Mediocre';
 
-   
 }

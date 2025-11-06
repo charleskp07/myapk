@@ -43,7 +43,6 @@ class UpdateStudentRequest extends FormRequest
             ])],
             'email' => [
                 'sometimes',
-                'required',
                 'email',
                 Rule::unique('students', 'email')->ignore($student_id)
             ],

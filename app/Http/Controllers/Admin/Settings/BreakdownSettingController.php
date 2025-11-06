@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BreakdownRequest;
 use App\Models\Breakdown;
 use Illuminate\Http\Request;
 
@@ -29,10 +30,11 @@ class BreakdownSettingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BreakdownRequest $request)
     {
         $data = [
-            'name' => $request->name,
+            'type' => $request->type,
+            'value' => $request->value,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ];
@@ -70,10 +72,11 @@ class BreakdownSettingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BreakdownRequest $request, string $id)
     {
         $data = [
-            'name' => $request->name,
+            'type' => $request->type,
+            'value' => $request->value,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ];

@@ -37,10 +37,15 @@
                 {{ $classroom->teacher ? $classroom->teacher->last_name . ' ' . $classroom->teacher->first_name : 'Pas defini' }}<br>
             </p>
 
-
             <p>
                 <strong>Nombre d'apprenant:</strong>
                 {{ $classroom->students->count() }}<br>
+            </p>
+
+            <p>
+                <a href="{{ route('admin.list.students.pdf', ['classroom_id' => $classroom->id]) }}">
+                    Telecharger la liste des apprenants (Version PDF)
+                </a>
             </p>
         </div>
 
@@ -260,7 +265,6 @@
                     <table id="evaluationDatatables">
                         <thead>
                             <tr>
-                                {{-- <th>Statut</th> --}}
                                 <th>
                                     Decoupage
                                 </th>
@@ -273,30 +277,9 @@
                         <tbody>
                             @foreach ($classroom->evaluations as $evaluation)
                                 <tr>
-                                    {{-- <td onclick='onEvaluationClick("{{ $evaluation->id }}")'>
-
-                                        @php
-                                            $today = \Carbon\Carbon::today();
-                                            $evalDate = \Carbon\Carbon::parse($evaluation->date);
-
-                                            if ($evalDate->isFuture()) {
-                                                $status = 'À venir';
-                                            } elseif ($evalDate->isToday()) {
-                                                $status = 'En cours';
-                                            } else {
-                                                $status = 'Passé';
-                                            }
-                                        @endphp
-
-
-                                        <span style="margin-left: 10px;">
-                                            {{ $status }}
-                                        </span>
-
-                                    </td> --}}
-
                                     <td onclick='onEvaluationClick("{{ $evaluation->id }}")'>
-                                        {{ $evaluation->breakdown->name }}
+                                        {{ $evaluation->breakdown->type }}
+                                        {{ $evaluation->breakdown->value }}
                                     </td>
 
                                     <td onclick='onEvaluationClick("{{ $evaluation->id }}")'>
@@ -361,7 +344,6 @@
             @endif
         </div>
 
-
         <br />
         <br />
 
@@ -372,7 +354,7 @@
             <select id="breakdown">
                 <option value="">-- Sélectionner --</option>
                 @foreach ($breakdowns as $breakdown)
-                    <option value="{{ $breakdown->id }}">{{ $breakdown->name }}</option>
+                    <option value="{{ $breakdown->id }}">{{ $breakdown->type }} {{ $breakdown->value }}</option>
                 @endforeach
             </select>
 
@@ -385,7 +367,6 @@
 @endsection
 
 @section('js')
-
     <script>
         new DataTable('#datatables', {
             responsive: true,

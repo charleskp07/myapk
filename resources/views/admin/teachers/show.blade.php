@@ -55,6 +55,14 @@
                     {{ $teacher->nationality }}
                 </p>
 
+                <br /><br /><br />
+                <p>               
+                    <a href="{{ route('teachers.edit', $teacher->id) }}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Modifier
+                    </a>
+                </p>
+
             </div>
         </div>
 

@@ -38,6 +38,7 @@ class AuthController extends Controller
 
             return redirect()->route('auth.two-factor');;
         } catch (\Exception $ex) {
+            // return $ex;
             return back()->withErrors([
                 'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
             ])->withInput();

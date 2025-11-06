@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\BreakdownNameEnums;
+use App\Enums\ClassroomLevelEnums;
 use App\Enums\EvaluationTypeEnums;
 use App\Http\Controllers\Controller;
 use App\Models\Breakdown;
@@ -183,9 +185,7 @@ class BulletinController extends Controller
         $classroom = $student->classroom;
         $students = $classroom->students;
 
-        // ===============================
-        // 🔹 Calcul des moyennes de la classe
-        // ===============================
+
         $classAverages = [];
 
         foreach ($students as $stud) {
@@ -240,9 +240,7 @@ class BulletinController extends Controller
         $maxAverage = max($classAverages);
         $minAverage = min($classAverages);
 
-        // ===============================
-        // 🔹 Calcul des notes de l'élève
-        // ===============================
+
         $notes = $student->notes()
             ->whereHas('evaluation', fn($q) => $q->where('breakdown_id', $breakdown->id))
             ->with([
@@ -307,10 +305,115 @@ class BulletinController extends Controller
 
         $moyenneGenerale = $totalCoeff > 0 ? $totalNote / $totalCoeff : 0;
 
-        // ===============================
-        // 🔹 Génération PDF
-        // ===============================
-        $pdf = Pdf::loadView('admin.pdf.bulletin', [
+
+
+        $moyenneAnnuel = null;
+
+        $passage = null;
+
+         $moyenneSem1 = 0; 
+
+
+        if ($student->classroom->level === ClassroomLevelEnums::LYCEE->value && $breakdown->type === BreakdownNameEnums::SEMESTRE->value && $breakdown->value === 2) {
+
+            // récupérer la moyenne du semestre 1
+            
+            $breakdownSem1 = Breakdown::where('type', BreakdownNameEnums::SEMESTRE->value)->where('value', 1)->first();
+            
+            // $moyenneSem1 = 0; 
+
+            if ($breakdownSem1) {
+
+                $notesSem1 = $student->notes()
+                    ->whereHas('evaluation', fn($q) => $q->where('breakdown_id', $breakdownSem1->id))
+                    ->get();
+
+                $totalNoteSem1 = 0;
+
+                $totalCoeffSem1 = 0;
+
+                $notesBySubjectSem1 = $notesSem1->groupBy(fn($note) => $note->evaluation->assignation->subject->id);
+
+                foreach ($notesBySubjectSem1 as $subjectNotes) {
+
+                    $coeff = $subjectNotes->first()->evaluation->assignation->coefficient ?? 1;
+                    $interro = $subjectNotes->firstWhere('evaluation.type', EvaluationTypeEnums::INTERROGATION->value);
+                    $devoir = $subjectNotes->firstWhere('evaluation.type', EvaluationTypeEnums::DEVOIR->value);
+                    $composition = $subjectNotes->firstWhere('evaluation.type', EvaluationTypeEnums::COMPOSITION->value);
+
+                    $noteInterro = $interro ? ($interro->value / $interro->evaluation->bareme->value) * 20 : null;
+                    $noteDevoir = $devoir ? ($devoir->value / $devoir->evaluation->bareme->value) * 20 : null;
+                    $noteComposition = $composition ? ($composition->value / $composition->evaluation->bareme->value) * 20 : null;
+
+                    if ($noteInterro !== null && $noteDevoir !== null) $noteClasse = ($noteInterro + $noteDevoir) / 2;
+                    elseif ($noteInterro !== null) $noteClasse = $noteInterro;
+                    elseif ($noteDevoir !== null) $noteClasse = $noteDevoir;
+                    else $noteClasse = null;
+
+                    $noteFinale = $noteClasse !== null && $noteComposition !== null
+                        ? ($noteClasse + $noteComposition) / 2
+                        : ($noteClasse ?? $noteComposition ?? 0);
+
+                    $totalNoteSem1 += $noteFinale * $coeff;
+                    $totalCoeffSem1 += $coeff;
+                }
+
+                $moyenneSem1 = $totalCoeffSem1 > 0 ? $totalNoteSem1 / $totalCoeffSem1 : 0;
+
+            }
+
+            $moyenneAnnuel = ($moyenneSem1 + $moyenneGenerale) / 2;
+        }
+
+
+
+
+        // COLLEGE -> bulletin du 3ème trimestre
+        elseif ($student->classroom->levem === ClassroomLevelEnums::COLLEGE->value && $breakdown->type === BreakdownNameEnums::TRIMESTRE->value && $breakdown->value === 3) {
+            
+            $moyennesTrimestres = [];
+
+            for ($i = 1; $i <= 3; $i++) {
+                $break = Breakdown::where('type', BreakdownNameEnums::TRIMESTRE->value . $i)->first();
+                if ($break) {
+                    $notesTrim = $student->notes()->whereHas('evaluation', fn($q) => $q->where('breakdown_id', $break->id))->get();
+                    $totalNoteTrim = 0;
+                    $totalCoeffTrim = 0;
+                    $notesBySubTrim = $notesTrim->groupBy(fn($note) => $note->evaluation->assignation->subject->id);
+                    foreach ($notesBySubTrim as $subjectNotes) {
+                        $coeff = $subjectNotes->first()->evaluation->assignation->coefficient ?? 1;
+                        $interro = $subjectNotes->firstWhere('evaluation.type', EvaluationTypeEnums::INTERROGATION->value);
+                        $devoir = $subjectNotes->firstWhere('evaluation.type', EvaluationTypeEnums::DEVOIR->value);
+                        $composition = $subjectNotes->firstWhere('evaluation.type', EvaluationTypeEnums::COMPOSITION->value);
+
+                        $noteInterro = $interro ? ($interro->value / $interro->evaluation->bareme->value) * 20 : null;
+                        $noteDevoir = $devoir ? ($devoir->value / $devoir->evaluation->bareme->value) * 20 : null;
+                        $noteComposition = $composition ? ($composition->value / $composition->evaluation->bareme->value) * 20 : null;
+
+                        if ($noteInterro !== null && $noteDevoir !== null) $noteClasse = ($noteInterro + $noteDevoir) / 2;
+                        elseif ($noteInterro !== null) $noteClasse = $noteInterro;
+                        elseif ($noteDevoir !== null) $noteClasse = $noteDevoir;
+                        else $noteClasse = null;
+
+                        $noteFinale = $noteClasse !== null && $noteComposition !== null
+                            ? ($noteClasse + $noteComposition) / 2
+                            : ($noteClasse ?? $noteComposition ?? 0);
+
+                        $totalNoteTrim += $noteFinale * $coeff;
+                        $totalCoeffTrim += $coeff;
+                    }
+                    $moyennesTrimestres[] = $totalCoeffTrim > 0 ? $totalNoteTrim / $totalCoeffTrim : 0;
+                }
+            }
+
+            $moyenneAnnuel = count($moyennesTrimestres) > 0 ? array_sum($moyennesTrimestres) / count($moyennesTrimestres) : 0;
+        }
+
+        $passage = $moyenneAnnuel !== null && $moyenneAnnuel >= 10 ? 'Passe en classe superieur' : 'Ajourné';
+
+
+
+        $pdf = Pdf::loadView('admin.pdf.students.bulletin', [
             'student' => $student,
             'breakdown' => $breakdown,
             'results' => $results,
@@ -320,6 +423,9 @@ class BulletinController extends Controller
             'rank' => $rank,
             'maxAverage' => $maxAverage,
             'minAverage' => $minAverage,
+            'moyenneAnnuel' => $moyenneAnnuel,
+            'passage' => $passage,
+            'moyenneSem1' => $moyenneSem1,
         ]);
 
         // return $pdf->download("Bulletin_{$student->last_name}_{$breakdown->name}.pdf");

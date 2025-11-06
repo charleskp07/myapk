@@ -7,9 +7,9 @@
 
     <div>
         <div>
-            <h2 class="roboto-black text-center">Créer un appréciation</h2>
+            <h2 class="">Créer un appréciation</h2>
             <br />
-            <p class="text-center">
+            <p class="">
                 Remplir dans les champs les informations du appréciation que vous voulez créer.
             </p>
             <br />

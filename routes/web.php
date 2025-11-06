@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::resource('/classrooms', ClassroomController::class);
     Route::get('/classroom/{id}/stats/data', [ClassroomController::class, 'statsData'])->name('classroom.stats.data');
+    Route::get('/classroom/student-list/pdf', [ClassroomController::class, 'exportStudentsListPdf'])->name('admin.list.students.pdf');
     Route::resource('/teachers', TeacherController::class);
     Route::resource('/students', StudentController::class);
     Route::resource('/subjects', SubjectController::class);

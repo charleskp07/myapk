@@ -27,7 +27,7 @@ return new class extends Migration
                 GenderEnums::MASCULIN->value,
                 GenderEnums::FEMININ->value,
             ]);
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable();
             $table->string('nationality')->default('Togolaise');
             $table->timestamps();

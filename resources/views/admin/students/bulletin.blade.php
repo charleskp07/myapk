@@ -66,7 +66,7 @@
     <div class="bulletin-container">
         <br /><br />
         <div style="text-align: center;">
-            <img src="{{asset('images/Lycee.png')}}" alt="" width="150">
+            <img src="{{ asset('images/Lycee.png') }}" alt="" width="150">
         </div>
         <br />
         <div class="bulletin-header">
@@ -76,7 +76,7 @@
             <p><b>ENSEIGNEMENT SECONDAIRE</b></p>
             <h4><b>LYCEE AYIMOLOU</b></h4>
             <p>Année scolaire : {{ '2024 - 2025' }}</p>
-            <h4><u>BULLETIN D'ÉVALUATION DU {{ $breakdown->name }}</u></h4>
+            <h4><u>BULLETIN D'ÉVALUATION DU {{ $breakdown->type }} {{ $breakdown->value }}</u></h4>
             <br />
         </div>
 
@@ -85,7 +85,7 @@
             <b>Prénoms :</b> {{ $student->first_name }} &nbsp;&nbsp;
             <b>Classe :</b> {{ $student->classroom->name }} {{ $student->classroom->section }}
         </p>
-        
+
         <table>
             <thead>
                 <tr>
@@ -138,8 +138,8 @@
                 <p><b>Moyenne générale :</b> {{ number_format($moyenneGenerale, 2) }}</p>
                 <p><b>Rang :</b> {{ $rank }} / {{ count($student->classroom->students) }}</p>
                 <p>
-                    <b>Mention :</b> 
-                    @if ( $moyenneGenerale >= 0 && $moyenneGenerale <= 4.99)
+                    <b>Mention :</b>
+                    @if ($moyenneGenerale >= 0 && $moyenneGenerale <= 4.99)
                         Médiocre
                     @else
                         @if ($moyenneGenerale >= 5 && $moyenneGenerale <= 9.99)
@@ -159,12 +159,12 @@
                                         @else
                                             @if ($moyenneGenerale >= 19 && $moyenneGenerale <= 20)
                                                 Excellent
-                                            @endif                                           
-                                        @endif                                      
-                                    @endif                                   
-                                @endif                                
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endif
                             @endif
-                        @endif                        
+                        @endif
                     @endif
                 </p>
 
@@ -179,7 +179,7 @@
                 <p>{{ $student->classroom->teacher->last_name }} {{ $student->classroom->teacher->first_name }}</p>
                 <br /><br /><br /><br /><br /><br />
             </div>
-            
+
         </div>
 
         <p style="text-align: right; margin-top: 10px;">

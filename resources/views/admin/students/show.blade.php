@@ -16,7 +16,7 @@
 
         <br />
         <div style="display: flex; gap: 20px;">
-            <img src="{{ $student->photo_url }}" alt="{{ $student->full_name }}" width="200" style="border-radius: 20px">
+            <img src="{{ $student->photo_url }}" alt="{{ $student->full_name }}" width="200" style="border-radius: 20px; aspect-ratio: 1/1;">
 
             <div>
                 <p>
@@ -54,10 +54,14 @@
                     <strong>Nationalité:</strong>
                     {{ $student->nationality }}
                 </p>
-
-                <br />
                 <br />
 
+                <p>               
+                    <a href="{{ route('students.edit', $student->id) }}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Modifier
+                    </a>
+                </p>
 
                 <p>
                     @foreach ($breakdowns as $breakdown)
@@ -65,9 +69,11 @@
                             Voir bulletin du {{ $breakdown->name }}
                             <i class="bi bi-arrow-right"></i>
                         </a> --}}
-                        <a href="{{ route('admin.bulletin.pdf', ['student_id' => $student->id, 'breakdown_id' => $breakdown->id]) }}">
-                            Télécharger le Bulletin du {{ $breakdown->name }} ( Version PDF)
+                        <a
+                            href="{{ route('admin.bulletin.pdf', ['student_id' => $student->id, 'breakdown_id' => $breakdown->id]) }}">
+                            Télécharger le Bulletin du {{ $breakdown->type }} {{ $breakdown->value }} ( Version PDF)
                         </a>
+                        <br />
                     @endforeach
                 </p>
 
@@ -116,7 +122,8 @@
                     @foreach ($student->notes as $note)
                         <tr>
                             <td>
-                                {{ $note->evaluation->breakdown->name }}
+                                {{ $note->evaluation->breakdown->type }}
+                                {{ $note->evaluation->breakdown->value }}
                             </td>
                             <td>
                                 {{ $note->evaluation->assignation->subject->name }}

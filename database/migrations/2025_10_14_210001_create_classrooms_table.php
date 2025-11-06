@@ -28,7 +28,7 @@ return new class extends Migration
             $table->index('section');
 
 
-            $table->unique(['level', 'name', 'section']);
+            // $table->unique(['level', 'name', 'section']);
         });
     }
 

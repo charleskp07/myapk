@@ -89,11 +89,10 @@
 </head>
 
 <body>
-
     <div class="bulletin-container">
 
         <div style="text-align: center;">
-            <img src="{{public_path('images/Lycee.png')}}" alt="" width="150">
+            <img src="{{ public_path('images/Lycee.png') }}" alt="" width="150">
         </div>
         <br /><br />
         <div class="bulletin-header">
@@ -103,7 +102,7 @@
             <p><b>ENSEIGNEMENT SECONDAIRE</b></p>
             <h4><b>LYCÉE AYIMOLOU</b></h4>
             <p>Année scolaire : {{ '2024 - 2025' }}</p>
-            <h4>Bulletin d'évaluation du {{ $breakdown->name }}</h4>
+            <h4>Bulletin d'évaluation du {{ $breakdown->type }} {{ $breakdown->value }}</h4>
         </div>
         <br />
         <hr>
@@ -125,9 +124,10 @@
                     <th>Devoir</th>
                     <th>Note de classe</th>
                     <th>Composition</th>
-                    <th>Note Moyenne</th>
+                    <th>Note Moy</th>
                     <th>Coeff</th>
-                    <th>Note définitive</th>
+                    <th>Note déf</th>
+                    <th>Appreciation</th>
                     <th>Professeur</th>
                 </tr>
             </thead>
@@ -142,7 +142,28 @@
                         <td><b>{{ number_format($item['note_finale'], 2) }}</b></td>
                         <td>{{ $item['coefficient'] }}</td>
                         <td><b>{{ number_format($item['note_def'], 2) }}</b></td>
-                        <td style="text-align: left">{{ strtoupper($item['teacher']->last_name ?? '') }}</td>
+                        <td>
+                            @if ($item['note_finale'] < 5)
+                                Médiocre
+                            @elseif($item['note_finale'] < 10)
+                                Insuffisant
+                            @elseif($item['note_finale'] < 12)
+                                Passable
+                            @elseif($item['note_finale'] < 14)
+                                Assez-bien
+                            @elseif($item['note_finale'] < 16)
+                                Bien
+                            @elseif($item['note_finale'] < 19)
+                                Très-bien
+                            @else
+                                Excellent
+                            @endif
+                        </td>
+                        <td style="text-align: left">
+                            {{ strtoupper($item['teacher']->last_name ?? '') }}
+                            {{-- {{ ucfirst($item['teacher']->first_name ?? '') }} --}}
+
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -152,10 +173,12 @@
                     <th>{{ number_format($totalCoeff, 2) }}</th>
                     <th>{{ number_format($totalNote, 2) }}</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 <tr>
                     <th colspan="7">Moyenne générale</th>
                     <th>{{ number_format($moyenneGenerale, 2) }}</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -169,7 +192,20 @@
         <div class="footer">
             <div>
                 <p><b>Moyenne générale :</b> {{ number_format($moyenneGenerale, 2) }}</p>
-                <p><b>Rang :</b> {{ $rank }} / {{ count($student->classroom->students) }}</p>
+                <p>
+                    <b>Rang :</b>
+                    @if ($rank == 1)
+                        @if ($student->gender === 'Féminin')
+                            1ère
+                        @else
+                            1er
+                        @endif
+                    @else
+                        {{ $rank }}ème
+                    @endif
+
+                    sur {{ count($student->classroom->students) }}
+                </p>
                 <p>
                     <b>Mention :</b>
                     @if ($moyenneGenerale < 5)
@@ -189,7 +225,19 @@
                     @endif
                 </p>
                 <p><b>Plus forte moyenne :</b> {{ number_format($maxAverage, 2) }}/20</p>
-                <p><b>Plus faible moyenne :</b> {{ number_format($minAverage, 2) }}/20</p>
+                <p><b>Plus faible moyenne :</b> {{ number_format($moyenneGenerale, 2) }}/20</p>
+
+                @if ($moyenneAnnuel)
+                    <p>
+                        @if ($student->classroom->level === app\Enums\ClassroomLevelEnums::LYCEE->value )
+                            <b>Moyenne 1er Semestre : </b>  {{ number_format($moyenneSem1, 2) }}/20 <br />
+                            <b>Moyenne 2eme Semestre : </b>  {{ number_format($moyenneGenerale, 2) }}/20
+                        @endif
+                    </p>
+                    <p><b>Moyenne annuelle :</b> {{ number_format($moyenneAnnuel, 2) }}/20</p>
+                    <p><b>Décision :</b> {{ $passage }}</p>
+                @endif
+
             </div>
 
             <div class="signatures">
@@ -202,6 +250,11 @@
 
         <p class="page-footer">
             Fait à Lomé le {{ now()->format('d/m/Y') }}
+        </p>
+
+        <br /><br />
+        <p style="text-align: center">
+            Le Provieur
         </p>
 
     </div>

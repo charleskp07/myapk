@@ -26,15 +26,16 @@
     @else
         <div>
             @foreach ($breakdowns as $breakdown)
-                <span>{{ $breakdown->name }}</span>
+                <span>{{ $breakdown->type }}</span> &nbsp;
+                <span>{{ $breakdown->value }}</span> &nbsp;&nbsp;
                 <a href="{{ route('admin.breakdowns.edit', $breakdown->id) }}">
                     <i class="fa-regular fa-pen-to-square"></i>
                     Modifier
                 </a>
-                <a href="{{ route('admin.breakdowns.show', $breakdown->id) }}">
+                {{-- <a href="{{ route('admin.breakdowns.show', $breakdown->id) }}">
                     <i class="fa-solid fa-list-ul"></i>
                     Details
-                </a>
+                </a> --}}
                 {{-- <form action="{{ route('admin.breakdowns.destroy', $breakdown->id) }}" method="post">
                     @csrf
                     @method('DELETE')

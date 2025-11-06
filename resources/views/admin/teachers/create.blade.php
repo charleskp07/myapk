@@ -6,9 +6,9 @@
 
     <div>
         <div>
-            <h2 class="roboto-black text-center">Ajouter un(e) enseignant(e)</h2>
+            <h2 class="">Ajouter un(e) enseignant(e)</h2>
             <br />
-            <p class="text-center">
+            <p class="">
                 Remplir dans les champs les informations de l'enseignant(e) que vous voulez créer.
             </p>
             <br />

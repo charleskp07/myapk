@@ -5,9 +5,9 @@
 @section('content')
     <div>
         <div>
-            <h2 class="roboto-black text-center">Modifier un(e) enseignant(e)</h2>
+            <h2 class="">Modifier un(e) enseignant(e)</h2>
             <br />
-            <p class="text-center">
+            <p class="">
                 Modifier les informations de l'enseignant(e) sélectionné(e).
             </p>
             <br />

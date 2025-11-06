@@ -37,7 +37,8 @@
                         @foreach ($breakdowns as $breakdown)
                             <option value="{{ $breakdown->id }}"
                                 {{ $evaluation->breakdown_id == $breakdown->id ? 'selected' : '' }}>
-                                {{ $breakdown->name }}
+                                {{ $breakdown->type }}
+                                {{ $breakdown->value }}
                             </option>
                         @endforeach
                     </select>

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        // 'username',
         'name',
         'email',
         'password',
@@ -84,4 +86,24 @@ class User extends Authenticatable
         return $this->role === RoleEnums::STUDENT->value;
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (empty($user->name)) {
+                $baseMame = Str::slug($user->name);
+                $name = $baseMame;
+                $count = 1;
+
+                // Évite les doublons
+                while (self::where('name', $name)->exists()) {
+                    $name = $baseMame . $count;
+                    $count++;
+                }
+
+                $user->name = $name;
+            }
+        });
+    }
 }

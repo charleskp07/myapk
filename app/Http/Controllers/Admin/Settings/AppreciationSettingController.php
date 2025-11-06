@@ -67,6 +67,7 @@ class AppreciationSettingController extends Controller
     public function edit(string $id)
     {
         return view('admin.settings.notes.appreciations.edit', [
+            'baremes' => Bareme::all(),
             'appreciation' => NoteAppreciation::find($id),
         ]);
     }
@@ -76,6 +77,9 @@ class AppreciationSettingController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        $noteAppreciation = NoteAppreciation::find($id);
+
         $data = [
             'bareme_id' => $request->bareme_id,
             'appreciation' => $request->appreciation,
@@ -85,13 +89,14 @@ class AppreciationSettingController extends Controller
 
         try {
 
-            $noteAppreciation = NoteAppreciation::find($id)->update($data);
+            $noteAppreciation->update($data);
 
             return redirect()
                 ->route('admin.baremes.show', $noteAppreciation->bareme_id)
                 ->with('success', 'Appréciation mis à jour avec succès !');
 
         } catch (\Throwable $th) {
+            // return $th;
             return back()->withErrors([
                 'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
             ])->withInput();

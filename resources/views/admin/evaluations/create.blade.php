@@ -40,7 +40,8 @@
                         @forelse ($breakdowns as $breakdown)
                             <option value="{{ $breakdown->id }}"
                                 {{ old('breakdown_id') == $breakdown->id ? 'selected' : '' }}>
-                                {{ $breakdown->name }}
+                                {{ $breakdown->type }}
+                                {{ $breakdown->value }}
                             </option>
                         @empty
                             <option value="">Aucun decoupage n'a été defini</option>
@@ -88,7 +89,6 @@
                     <label for="type">Type</label>
                     <select name="type" id="type">
                         <option value="">-- Sélectionner un type --</option>
-
                         @foreach (App\Enums\EvaluationTypeEnums::cases() as $enum)
                             <option value="{{ $enum->value }}" {{ old('type') === $enum->value ? 'selected' : '' }}>
                                 {{ ucfirst(strtolower($enum->value)) }}

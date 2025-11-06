@@ -78,6 +78,7 @@ class StudentController extends Controller
 
             $user = $this->userInterface->store($data);
         } catch (\Exception $ex) {
+            // return $ex;
             return back()->withErrors([
                 'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
             ])->withInput();
@@ -109,6 +110,7 @@ class StudentController extends Controller
 
             return back()->with('success', "apprenant(e) ajouté(e) avec succès !");
         } catch (\Exception $ex) {
+            // return $ex;
             return back()->withErrors([
                 'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
             ])->withInput();

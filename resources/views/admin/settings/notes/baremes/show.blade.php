@@ -128,6 +128,7 @@
                         <th>Appréciation</th>
                         <th>Valeur minimale</th>
                         <th>Valeur maximale</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -136,6 +137,12 @@
                             <td>{{ $appreciation->appreciation }}</td>
                             <td>{{ $appreciation->min_value }}</td>
                             <td>{{ $appreciation->max_value }}</td>
+                            <td>
+                                <a href="{{route('admin.appreciations.edit', $appreciation->id)}}">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Modifier
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
