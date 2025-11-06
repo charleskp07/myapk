@@ -84,11 +84,11 @@
                             Matière
                         </th>
 
-                        <th>
+                        <th class="label-first no-sort">
                             coefficient
                         </th>
 
-                        <th>
+                        <th width="40">
                             
                         </th>
                     </tr>
@@ -160,6 +160,11 @@
     <script>
         new DataTable('#datatables', {
             responsive: true,
+            info: false,
+            columnDefs: [{
+                orderable: false,
+                targets: [3],
+            }]
         });
     </script>
 @endsection

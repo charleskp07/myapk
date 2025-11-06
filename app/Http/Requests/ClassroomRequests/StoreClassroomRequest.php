@@ -51,7 +51,7 @@ class StoreClassroomRequest extends FormRequest
             'name.unique' => 'Cette classe existe déjà pour ce niveau',
             'section.max' => 'La section ne doit pas dépasser 50 caractères',
             'teacher_id.exists' => 'l\'enseignant sélectionné est invalide.',
-            'teacher_id.unique' => 'Cet enseignant est déjà assigné à cette classe.',
+            'teacher_id.unique' => 'Cet enseignant est déjà titulaire d\'une salle de classe.',
 
         ];
     }

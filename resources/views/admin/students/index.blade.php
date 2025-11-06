@@ -4,7 +4,7 @@
 
 @section('content')
     <div>
-        <h1>Gestion des apprenant(e)s</h1>
+        <h1>Gestion des apprenants</h1>
 
         <a href="{{ route('students.create') }}" >
             Ajouter un(e) apprenant(e)
@@ -112,7 +112,12 @@
 
     <script>
         new DataTable('#datatables', {
-            responsive: true
+            responsive: true,
+            info: false,
+            columnDefs: [{
+                orderable: false,
+                targets: [3],
+            }]
         })
 
         function onRowClick(id) {

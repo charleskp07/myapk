@@ -35,6 +35,7 @@ class Classroom extends Model
         return $this->hasMany(Assignation::class);
     }
 
+
     public function evaluations(): HasManyThrough
     {
         return $this->hasManyThrough(

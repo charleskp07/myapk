@@ -1,4 +1,4 @@
-<style>
+{{-- <style>
 
     .sidebar {
         position: fixed;
@@ -91,7 +91,7 @@
             width: 230px;
         }
     }
-</style>
+</style> --}}
 
 <div class="sidebar" id="sidebar">
     <button id="sidebarToggle">☰</button>

@@ -28,8 +28,8 @@ class UpdateClassroomRequest extends FormRequest
 
         return [
             'level' => ['required', Rule::in([
-               ClassroomLevelEnums::COLLEGE->value,
-               ClassroomLevelEnums::LYCEE->value,
+                ClassroomLevelEnums::COLLEGE->value,
+                ClassroomLevelEnums::LYCEE->value,
             ])],
             'name' => [
                 'sometimes',
@@ -56,7 +56,7 @@ class UpdateClassroomRequest extends FormRequest
             'name.max' => 'Le nom ne doit pas dépasser 50 caractères',
             'name.unique' => 'Cette classe existe déjà pour ce niveau',
             'teacher_id.exists' => 'l\'enseignant sélectionné est invalide.',
-            'teacher_id.unique' => 'Cet enseignant est déjà assigné à cette classe.',
+            'teacher_id.unique' => 'Cet enseignant est déjà titulaire d\'une salle de classe.',
         ];
     }
 

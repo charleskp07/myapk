@@ -7,6 +7,7 @@ use App\Http\Requests\ClassroomRequests\StoreClassroomRequest;
 use App\Http\Requests\ClassroomRequests\UpdateClassroomRequest;
 use App\Interfaces\ClassroomInterface;
 use App\Interfaces\TeacherInterface;
+use App\Models\Breakdown;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 
@@ -40,7 +41,7 @@ class ClassroomController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {      
+    {
         return view("admin.classrooms.create", [
             'teachers' => $this->teacherInterface->index(),
             'page' => 'classrooms',
@@ -76,8 +77,18 @@ class ClassroomController extends Controller
      */
     public function show(string $id)
     {
+
+        $classroom = Classroom::with(['students.notes.evaluation.breakdown'])->findOrFail($id);
+
+        $breakdownIds = $classroom->students->flatMap(function ($student) {
+            return $student->notes->pluck('evaluation.breakdown_id');
+        })->unique()->values();
+
+        $breakdowns = Breakdown::whereIn('id', $breakdownIds)->get();
+
         return view("admin.classrooms.show", [
-            'classroom' => $this->classroomInterface->show($id),
+            'classroom' => $classroom,
+            'breakdowns' => $breakdowns,
             'page' => 'classrooms',
         ]);
     }
@@ -140,5 +151,60 @@ class ClassroomController extends Controller
                 'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
             ])->withInput();
         }
+    }
+
+
+    public function statsData(Request $request, $id)
+    {
+        $classroom = Classroom::with('students.notes.evaluation')->findOrFail($id);
+        $breakdownId = $request->breakdown_id;
+
+        $students = $classroom->students;
+
+        $states = [
+            'excellent' => 0,
+            'tres_bien' => 0,
+            'bien' => 0,
+            'assez_bien' => 0,
+            'passable' => 0,
+            'insuffisant' => 0,
+            'mediocre' => 0,
+        ];
+
+        foreach ($students as $student) {
+            $notes = $student->notes()->whereHas('evaluation', fn($q) => $q->where('breakdown_id', $breakdownId))
+                ->with('evaluation.bareme', 'evaluation.assignation')->get();
+
+            $totalWeighted = 0;
+            $totalCoeff = 0;
+
+            foreach ($notes->groupBy(fn($n) => $n->evaluation->assignation->subject_id) as $subjectNotes) {
+                $coeff = $subjectNotes->first()->evaluation->assignation->coefficient ?? 1;
+
+                $noteFinale = $subjectNotes->map(function ($n) {
+                    $bareme = $n->evaluation->bareme->value ?? 20;
+                    return ($n->value / $bareme) * 20;
+                })->avg();
+
+                $totalWeighted += $noteFinale * $coeff;
+                $totalCoeff += $coeff;
+            }
+
+            $avg = $totalCoeff > 0 ? $totalWeighted / $totalCoeff : 0;
+
+            // Comptage mentions
+            if ($avg >= 19) $states['excellent']++;
+            elseif ($avg >= 16) $states['tres_bien']++;
+            elseif ($avg >= 14) $states['bien']++;
+            elseif ($avg >= 12) $states['assez_bien']++;
+            elseif ($avg >= 10) $states['passable']++;
+            elseif ($avg >= 5) $states['insuffisant']++;
+            else $states['mediocre']++;
+        }
+
+        return response()->json([
+            'labels' => ['Excellent', 'Très bien', 'Bien', 'Assez-bien', 'Passable', 'Insuffisant', 'Médiocre'],
+            'data' => array_values($states),
+        ]);
     }
 }

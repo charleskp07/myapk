@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AssignationController;
+use App\Http\Controllers\Admin\BulletinController;
 use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\EvaluationController;
 use App\Http\Controllers\Admin\NoteController;
@@ -43,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [ProcessingAuthController::class, "logout"])->name('logout');
     
     Route::resource('/classrooms', ClassroomController::class);
+    Route::get('/classroom/{id}/stats/data', [ClassroomController::class, 'statsData'])->name('classroom.stats.data');
     Route::resource('/teachers', TeacherController::class);
     Route::resource('/students', StudentController::class);
     Route::resource('/subjects', SubjectController::class);
@@ -54,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notes/store', [NoteController::class, 'store'])->name('notes.store');
     Route::resource('/payments', PaymentController::class);
     
+    Route::get('/bulletin', [BulletinController::class, 'bulletinView'])->name('admin.bulletin.view');
+    Route::get('/bulletin/export-pdf', [BulletinController::class, 'exportPDF'])->name('admin.bulletin.pdf');
     
     //Routes des paramtrages
     Route::get('/settings', [SettingViewsController::class, "settingsIndex"])->name("admin.settings.index");

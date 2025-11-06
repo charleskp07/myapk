@@ -55,9 +55,7 @@
                     <input type="hidden" name="evaluation_id" value="{{ $evaluation->id }}">
 
                     <div style="max-width: 700px;">
-                        <table 
-                            {{-- id="datatables" --}}
-                        >
+                        <table {{-- id="datatables" --}}>
                             <thead>
                                 <tr>
                                     <th>Étudiant</th>
@@ -67,26 +65,34 @@
                             </thead>
                             <tbody>
                                 @foreach ($evaluation->assignation->classroom->students as $index => $student)
-                                    <tr>
-                                        <td>
-                                            <input type="hidden" name="students[{{ $index }}][student_id]"
-                                                value="{{ $student->id }}">
-                                            {{ $student->last_name }} {{ $student->first_name }}
-                                        </td>
+                                    @php
+                                        $existingNote = $student->notes
+                                            ->where('evaluation_id', $evaluation->id)
+                                            ->first();
+                                    @endphp
 
-                                        <td>
-                                            <input type="number" name="students[{{ $index }}][value]"
-                                                step="0.25" min="0" max="{{ $evaluation->bareme->value }}"
-                                                value="{{ old('students.' . $index . '.value') }}">
-                                        </td>
+                                    @if (!$existingNote)
+                                        <tr>
+                                            <td>
+                                                <input type="hidden" name="students[{{ $index }}][student_id]"
+                                                    value="{{ $student->id }}">
+                                                {{ $student->last_name }} {{ $student->first_name }}
+                                            </td>
 
-                                        <td>
-                                            <input type="text" name="students[{{ $index }}][comment]"
-                                                value="{{ old('students.' . $index . '.comment') }}"
-                                                placeholder="Commentaire...">
+                                            <td>
+                                                <input type="number" name="students[{{ $index }}][value]"
+                                                    step="0.25" min="0" max="{{ $evaluation->bareme->value }}"
+                                                    value="{{ old('students.' . $index . '.value') }}">
+                                            </td>
 
-                                        </td>
-                                    </tr>
+                                            <td>
+                                                <input type="text" name="students[{{ $index }}][comment]"
+                                                    value="{{ old('students.' . $index . '.comment') }}"
+                                                    placeholder="Commentaire...">
+
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

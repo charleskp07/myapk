@@ -39,7 +39,7 @@
 
 
             <p>
-                <strong>Nombre d'apprnant:</strong>
+                <strong>Nombre d'apprenant:</strong>
                 {{ $classroom->students->count() }}<br>
             </p>
         </div>
@@ -153,7 +153,7 @@
 
         <div>
             <div>
-                <h2>Listes des Enseignant(e)s et leur matière</h2>
+                <h2>Listes des Enseignants et leur matière</h2>
 
                 <a href="{{ route('assignations.create', ['classroom_id' => $classroom->id]) }}">
                     Ajouter une assignation
@@ -167,7 +167,7 @@
                     <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
                 </div>
             @else
-                <div class="datatables-cover">
+                <div class="datatable-cover">
                     <table id="assignationDatatable">
                         <thead>
                             <tr>
@@ -256,25 +256,24 @@
                     <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
                 </div>
             @else
-                <div>
+                <div class="datatable-cover">
                     <table id="evaluationDatatables">
                         <thead>
                             <tr>
-                                <th>Statut</th>
+                                {{-- <th>Statut</th> --}}
                                 <th>
                                     Decoupage
                                 </th>
                                 <th>Type</th>
                                 <th>Date</th>
                                 <th>Matière</th>
-                                <th></th>
+                                <th width="40"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($classroom->evaluations as $evaluation)
                                 <tr>
-
-                                    <td onclick='onEvaluationClick("{{ $evaluation->id }}")'>
+                                    {{-- <td onclick='onEvaluationClick("{{ $evaluation->id }}")'>
 
                                         @php
                                             $today = \Carbon\Carbon::today();
@@ -294,7 +293,8 @@
                                             {{ $status }}
                                         </span>
 
-                                    </td>
+                                    </td> --}}
+
                                     <td onclick='onEvaluationClick("{{ $evaluation->id }}")'>
                                         {{ $evaluation->breakdown->name }}
                                     </td>
@@ -313,7 +313,8 @@
 
                                     <td>
                                         <div class="dropdown-cover">
-                                            <button class="more-icon" data-target="dropdown-parent-triple-{{ $evaluation->id }}">
+                                            <button class="more-icon"
+                                                data-target="dropdown-parent-triple-{{ $evaluation->id }}">
                                                 <i class="fa-solid fa-ellipsis-vertical"></i>
                                             </button>
                                             <div class="dropdown-items" id="dropdown-parent-triple-{{ $evaluation->id }}">
@@ -365,8 +366,21 @@
         <br />
 
         <div>
-            <h2>Statistiques</h2>
+            <h2>Statistiques des mentions par découpage</h2>
+            <br />
+            <label for="breakdown">Choisir le découpage :</label>
+            <select id="breakdown">
+                <option value="">-- Sélectionner --</option>
+                @foreach ($breakdowns as $breakdown)
+                    <option value="{{ $breakdown->id }}">{{ $breakdown->name }}</option>
+                @endforeach
+            </select>
+
+           <div style="max-width: 450px">
+                 <canvas id="classChart"></canvas>
+           </div>
         </div>
+
     </div>
 @endsection
 
@@ -384,25 +398,24 @@
 
         new DataTable('#assignationDatatable', {
             responsive: true,
-            searching: false,
+            // searching: false,
             paging: false,
             info: false,
             columnDefs: [{
                 orderable: false,
                 targets: [3],
-                targets: 'no-sort',
             }]
 
         })
 
         new DataTable('#evaluationDatatables', {
             responsive: true,
-            searching: false,
-            paging: false,
+            // searching: false,
+            // paging: false,
             info: false,
             columnDefs: [{
                 orderable: false,
-                targets: [5],
+                targets: [4],
             }]
 
         })
@@ -418,6 +431,43 @@
         function onEvaluationClick(id) {
             window.location.href = `/evaluations/${id}`
         }
+
+        let ctx = document.getElementById('classChart').getContext('2d');
+        let classChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Excellent', 'Très bien', 'Bien', 'Assez-bien', 'Passable', 'Insuffisant', 'Médiocre'],
+                datasets: [{
+                    label: 'Nombre d\'élèves',
+                    data: [0, 0, 0, 0, 0, 0, 0],
+                    backgroundColor: ['#4caf50', '#2196f3', '#00bcd4', '#ffc107', '#ff9800', '#f44336',
+                        '#9e9e9e'
+                    ],
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }
+            }
+        });
+
+        document.getElementById('breakdown').addEventListener('change', function() {
+            let breakdownId = this.value;
+            if (!breakdownId) return;
+
+            fetch(`{{ route('classroom.stats.data', ['id' => $classroom->id]) }}?breakdown_id=${breakdownId}`)
+                .then(res => res.json())
+                .then(res => {
+                    classChart.data.datasets[0].data = res.data;
+                    classChart.update();
+                });
+        });
     </script>
 
 @endsection

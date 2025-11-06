@@ -33,7 +33,7 @@
                         <th>Prénoms</th>
                         <th>Téléphone</th>
                         <th>Spécialité</th>
-                        <th></th>
+                        <th width="40"></th>
                     </tr>
                 </thead>
 
@@ -111,7 +111,12 @@
 @section('js')
     <script>
         new DataTable('#datatables', {
-            responsive: true
+            responsive: true,
+            info: false,
+            columnDefs: [{
+                orderable: false,
+                targets: [4],
+            }]
         });
 
         function onRowClick(id) {

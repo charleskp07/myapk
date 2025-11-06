@@ -41,24 +41,19 @@
             <table id="datatables">
                 <thead>
                     <tr>
-                        <th>Titre</th>
                         <th>
-                            Semestre/Trimestre
+                            Decoupage
                         </th>
                         <th>Type</th>
                         <th>Date</th>
                         <th>Classe</th>
                         <th>Matière</th>
-                        <th>Actions</th>
+                        <th width="40"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($evaluations as $evaluation)
                         <tr>
-                            <td onclick='onRowClick("{{ $evaluation->id }}")'>
-                                {{ $evaluation->title }}
-                            </td>
-
                             <td onclick='onRowClick("{{ $evaluation->id }}")'>
                                 {{ $evaluation->breakdown->name }}
                             </td>
@@ -136,6 +131,11 @@
     <script>
         new DataTable('#datatables', {
             responsive: true,
+            info: false,
+            columnDefs: [{
+                orderable: false,
+                targets: [5],
+            }]
         });
 
         function onRowClick(id) {

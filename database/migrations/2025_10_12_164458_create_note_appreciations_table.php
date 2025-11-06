@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('note_appreciations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Bareme::class);
+            $table->foreignIdFor(Bareme::class)->onDelete('cascade');
             $table->enum('appreciation', [
                 NoteAppreciationEnums::MEDIOCRE->value,
                 NoteAppreciationEnums::INSUFFISANT->value,

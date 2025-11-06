@@ -44,35 +44,23 @@ class NoteController extends Controller
      */
     public function store(NoteRequest $request)
     {
-
-        $appreciation = NoteAppreciation::where('min_value', '<=', $request->value)
-            ->where('max_value', '>=', $request->value)
-            ->first();
-
-        if (!$appreciation) {
-            return back()->withErrors(['error' => 'aucune appreciation n\'a ete trouvé']);
-            // continue;
-        }
-
         $data = [
             'evaluation_id' => $request->evaluation_id,
-            'note_appreciation_id' => $appreciation?->id,
             'students' => $request->students,
         ];
-
+        
         try {
-
+            
             $this->noteInterface->store($data);
 
             return back()->with('success', "Notes remplies avec succès !");
         } catch (\Exception $ex) {
-            // return $ex;
+            return $ex;
             return back()->withErrors([
                 'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
             ])->withInput();
         }
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -91,19 +79,8 @@ class NoteController extends Controller
     public function update(NoteRequest $request, string $id)
     {
 
-        $appreciation = NoteAppreciation::where('min_value', '<=', $request->value)
-            ->where('max_value', '>=', $request->value)
-            ->first();
-
-        if (!$appreciation) {
-            return back()->withErrors(['error' => 'aucune appreciation n\'a ete trouvé']);
-            // continue;
-        }
-
-
         $data = [
             'evaluation_id' => $request->evaluation_id,
-            'note_appreciation_id' => $appreciation?->id,
             'students' => $request->students,
         ];
 

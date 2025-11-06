@@ -47,11 +47,6 @@ class Student extends Model
         return $this->hasMany(Note::class);
     }
 
-    // public function bulletins()
-    // {
-    //     return $this->hasMany(Bulletin::class);
-    // }
-
     public function getFullNameAttribute()
     {
         return $this->user->first_name . ' ' . $this->user->last_name;
@@ -70,5 +65,6 @@ class Student extends Model
     {
         return $this->photo ? Storage::url($this->photo) : asset('images/default-avatar.png');
     }
+
 
 }

@@ -30,7 +30,7 @@
                         <th>Salle de classe</th>
                         <th>Enseignant</th>
                         <th>Matière</th>
-                        <th>Coefficient</th>
+                        <th class="label-first no-sort">Coefficient</th>
                         <th width="40"></th>
                     </tr>
                 </thead>
@@ -115,6 +115,11 @@
     <script>
         new DataTable('#datatables', {
             responsive: true,
+            info: false,
+            columnDefs: [{
+                orderable: false,
+                targets: [4],
+            }]
         });
 
         function onRowClick(id) {

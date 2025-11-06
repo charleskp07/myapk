@@ -55,6 +55,22 @@
                     {{ $student->nationality }}
                 </p>
 
+                <br />
+                <br />
+
+
+                <p>
+                    @foreach ($breakdowns as $breakdown)
+                        {{-- <a href="{{ route('admin.bulletin.view', ['student_id' => $student->id, 'breakdown_id' => $breakdown->id]) }}">
+                            Voir bulletin du {{ $breakdown->name }}
+                            <i class="bi bi-arrow-right"></i>
+                        </a> --}}
+                        <a href="{{ route('admin.bulletin.pdf', ['student_id' => $student->id, 'breakdown_id' => $breakdown->id]) }}">
+                            Télécharger le Bulletin du {{ $breakdown->name }} ( Version PDF)
+                        </a>
+                    @endforeach
+                </p>
+
             </div>
         </div>
 
@@ -90,6 +106,10 @@
                         <th>
                             Appreciation
                         </th>
+
+                        <th>
+                            statut
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,10 +125,36 @@
                                 {{ $note->evaluation->type }}
                             </td>
                             <td>
-                                {{ $note->value }}
+                                {{ $note->value }} / {{ $note->evaluation->bareme->value }}
                             </td>
                             <td>
                                 {{ $note->appreciation?->appreciation }}
+                            </td>
+
+                            <td>
+                                @if ($note->evaluation->bareme->value = 20)
+                                    @if ($note->value >= 10)
+                                        <p style="color: green;">Validé</p>
+                                    @else
+                                        <p style="color: red;">Non-validé</p>
+                                    @endif
+                                @else
+                                    @if ($note->evaluation->bareme->value = 10)
+                                        @if ($note->value >= 5)
+                                            <p style="color: green;">Validé</p>
+                                        @else
+                                            <p style="color: red;">Non-validé</p>
+                                        @endif
+                                    @else
+                                        @if ($note->evaluation->bareme->value = 5)
+                                            @if ($note->value >= 2.5)
+                                                <p style="color: green;">Validé</p>
+                                            @else
+                                                <p style="color: red;">Non-validé</p>
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -128,6 +174,7 @@
     <script>
         new DataTable('#datatables', {
             responsive: true,
+            info: false,
         });
     </script>
 @endsection

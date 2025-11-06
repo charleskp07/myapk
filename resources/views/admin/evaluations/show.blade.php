@@ -108,7 +108,9 @@
                         <th>Appréciation</th>
                         <th>Commentaire</th>
                         <th>Statut</th>
-                        <th>actions</th>
+                        <th>
+
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,25 +134,25 @@
 
                             <td onclick='onRowClick("{{ $note->student->id }}")'>
 
-                                @if ($evaluation->bareme->value = 20)
+                                @if ($evaluation->bareme->value == 20)
                                     @if ($note->value >= 10)
                                         <p style="color: green;">Validé</p>
                                     @else
-                                        <p style="color: red;">non-validé</p>
+                                        <p style="color: red;">Non-validé</p>
                                     @endif
                                 @else
-                                    @if ($evaluation->bareme->value = 10)
+                                    @if ($evaluation->bareme->value == 10)
                                         @if ($note->value >= 5)
                                             <p style="color: green;">Validé</p>
                                         @else
-                                            <p style="color: red;">non-validé</p>
+                                            <p style="color: red;">Non-validé</p>
                                         @endif
                                     @else
-                                        @if ($evaluation->bareme->value = 5)
+                                        @if ($evaluation->bareme->value == 5)
                                             @if ($note->value >= 2.5)
                                                 <p style="color: green;">Validé</p>
                                             @else
-                                                <p style="color: red;">non-validé</p>
+                                                <p style="color: red;">Non-validé</p>
                                             @endif
                                         @endif
                                     @endif
@@ -182,6 +184,11 @@
     <script>
         new DataTable('#datatables', {
             responsive: true,
+            info: false,
+            columnDefs: [{
+                orderable: false,
+                targets: [5],
+            }]
         });
 
         function onRowClick(id) {

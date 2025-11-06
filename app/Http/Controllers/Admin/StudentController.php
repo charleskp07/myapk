@@ -10,6 +10,7 @@ use App\Interfaces\ClassroomInterface;
 use App\Interfaces\NoteInterface;
 use App\Interfaces\StudentInterface;
 use App\Interfaces\UserInterface;
+use App\Models\Breakdown;
 use App\Models\Classroom;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -119,9 +120,19 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
+
+
+        $student = Student::with('notes.evaluation.breakdown')->findOrFail($id);
+
+        // On récupère uniquement les découpages des évaluations de cet élève
+        $breakdowns = $student->notes
+            ->pluck('evaluation.breakdown')
+            ->unique('id')
+            ->values();
+
         return view("admin.students.show", [
             'student' => $this->studentInterface->show($id),
-            // 'notes' => $this->noteInterface->index(),
+            'breakdowns' => $breakdowns,
             'page' => 'students',
         ]);
     }
@@ -189,7 +200,7 @@ class StudentController extends Controller
 
         if ($student->notes()->exists()) {
             return redirect()->back()
-                ->with('error', 'Impossible de supprimer cet(te) apprenant(") car elle est liés à des notes');
+                ->with('error', 'Impossible de supprimer cet(te) apprenant(e) car elle est liés à des notes');
         }
 
         try {
@@ -204,4 +215,5 @@ class StudentController extends Controller
             ])->withInput();
         }
     }
+    
 }

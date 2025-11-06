@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\Evaluation;
 use App\Models\Note;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class NoteRequest extends FormRequest
 {
@@ -25,6 +27,13 @@ class NoteRequest extends FormRequest
     {
 
         $evaluation = Evaluation::find($this->evaluation_id);
+
+        if ($evaluation && Carbon::parse($evaluation->date)->isFuture()) {
+            throw ValidationException::withMessages([
+                'evaluation_id' => 'Impossible de saisir les notes : cette évaluation n\'a pas encore eu lieu.',
+            ]);
+        }
+
         $bareme = $evaluation->bareme->value;
 
         $isUpdate = $this->routeIs('notes.update');
@@ -41,20 +50,21 @@ class NoteRequest extends FormRequest
                         $evaluationId = $this->evaluation_id;
                         if (Note::where('evaluation_id', $evaluationId)
                             ->where('student_id', $value)
-                            ->exists()) {
+                            ->exists()
+                        ) {
                             $fail('Cet apprenant a déjà une note pour cette évaluation.');
                         }
                     }
                 },
-                
+
             ],
             'students.*.value' => [
-                'nullable',
+                'required',
                 'numeric',
                 'min:0',
                 "max:{$bareme}",
             ],
-            'students.*.comment' => 'nullable|string|max:200',        
+            'students.*.comment' => 'nullable|string|max:200',
         ];
     }
 
@@ -67,11 +77,11 @@ class NoteRequest extends FormRequest
             'students.required' => 'Au moins un étudiant doit être noté.',
             'students.*.student_id.required' => 'L\'identifiant de l\'étudiant est requis.',
             'students.*.student_id.exists' => 'L\'étudiant sélectionné n\'existe pas.',
+            'students.*.value.required' => 'La valeur de note est obligatoire.',
             'students.*.value.numeric' => 'La note doit être un nombre.',
             'students.*.value.min' => 'La note ne peut pas être négative.',
             'students.*.value.max' => 'La note ne peut pas dépasser le barème de l\'évaluation.',
             'students.*.comment.max' => 'Le commentaire ne peut pas dépasser 200 caractères.',
         ];
     }
-
 }
