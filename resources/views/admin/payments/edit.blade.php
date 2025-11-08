@@ -48,7 +48,7 @@
                         @foreach ($fees as $fee)
                             <option value="{{ $fee->id }}"
                                 {{ old('fee_id', $payment->fee_id) == $fee->id ? 'selected' : '' }}>
-                                {{ $fee->name }} - {{ number_format($fee->amount, 0, ',', ' ') }} FCFA
+                                {{ $fee->name }} - {{ number_format($fee->amount, 0, ',', ' ') }} XOF
                             </option>
                         @endforeach
                     </select>

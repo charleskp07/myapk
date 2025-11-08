@@ -58,7 +58,7 @@
                 <h2>Listes des frais associés</h2>
 
                 <a href="{{ route('fees.create', ['classroom_id' => $classroom->id]) }}">
-                    Ajouter un frais
+                    Ajouter des frais
                 </a>
             </div>
 
@@ -86,7 +86,7 @@
                                 <td style="padding: 8px;">{{ number_format($fee->amount, 0, ',', ' ') }} XOF</td>
                                 <td style="padding: 8px;">
                                     <a href="{{ route('fees.edit', $fee->id) }}"
-                                        style="color: #2563eb; text-decoration: none;">Modifier</a> 
+                                        style="color: #2563eb; text-decoration: none;">Modifier</a>
                                     {{-- <form action="{{ route('fees.destroy', $fee->id) }}" method="POST"
                                         style="display: inline;">
                                         @csrf
@@ -101,6 +101,15 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr style="background: #f3f4f6; font-weight: bold;">
+                            <td colspan="2" style="padding: 8px;">Total des frais :</td>
+                            <td style="padding: 8px;">
+                                {{ number_format($classroom->fees->sum('amount'), 0, ',', ' ') }} XOF
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             @endif
         </div>

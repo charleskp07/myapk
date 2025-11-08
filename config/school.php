@@ -28,5 +28,9 @@ return [
     |
     */
 
-    'school_year' => '2025 - 2026',
+    // 'school_year' => '2025 - 2026',
+    'school_year' => function () {
+        $year = now()->year;
+        return now()->month >= 8 ? "$year - " . ($year + 1) : ($year - 1) . " - $year";
+    },
 ];

@@ -71,51 +71,133 @@
             </p>
         </div>
 
+        <div class="chart">
+            <canvas id="paymentsChart"></canvas>
+        </div>
+
+        <div class="chart-legend">
+            <h4>Rapport des paiements :</h4>
+            <ul>
+                <li>
+                    <span
+                        style="display: inline-block; width: 15px; height: 15px; background-color: #4CAF50; border-radius: 50%; margin-right: 10px; flex-shrink: 0;">
+                    </span>
+                    <span><strong>Collecté :</strong> {{ number_format($totalCollected, 0, ',', ' ') }} XOF</span>
+                </li>
+                <li>
+                    <span
+                        style="display: inline-block; width: 15px; height: 15px; background-color: #FF5722; border-radius: 50%; margin-right: 10px; flex-shrink: 0;">
+                    </span>
+                    <span><strong>Restant :</strong> {{ number_format($totalExpected - $totalCollected, 0, ',', ' ') }}
+                        XOF</span>
+                </li>
+            </ul>
+            <p>
+                <strong>Total attendu :</strong> {{ number_format($totalExpected, 0, ',', ' ') }} XOF
+            </p>
+        </div>
     </div>
+
+
 
 
 @endsection
 
-
 @section('js')
 
     <script>
-        const ctx = document.getElementById('genderChart');
-
-        const data = {
-            labels: ['Masculin', 'Féminin'],
-            datasets: [{
-                label: 'Répartition des apprenants (%)',
-                data: [{{ $malePercentage }}, {{ $femalePercentage }}],
-                backgroundColor: [
-                    'rgb(54, 162, 235)', // Pour les masculin
-                    'rgb(255, 99, 132)', // rose les feminin
-                ],
-                hoverOffset: 10,
-                borderWidth: 1,
-            }]
-        };
-
-        new Chart(ctx, {
+        // Graphique genre
+        const genderCtx = document.getElementById('genderChart').getContext('2d');
+        const genderChart = new Chart(genderCtx, {
             type: 'doughnut',
-            data: data,
+            data: {
+                labels: ['Masculin', 'Féminin'],
+                datasets: [{
+                    label: 'Répartition des apprenants (%)',
+                    data: [{{ $malePercentage }}, {{ $femalePercentage }}],
+                    backgroundColor: [
+                        'rgb(54, 162, 235)', // masculin
+                        'rgb(255, 99, 132)', // féminin
+                    ],
+                    hoverOffset: 10,
+                    borderWidth: 1,
+                }]
+            },
             options: {
+                responsive: true,
                 plugins: {
-                    title: {
-                        display: true,
-                        text: 'Répartition des apprenants par genre',
-                        font: {
-                            size: 16
-                        }
-                    },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
                                 return context.label + ': ' + context.formattedValue + '%';
                             }
                         }
+                    },
+                    legend: {
+                        position: 'bottom'
                     }
-                }
+                },
+                scales: {
+                    x: {
+                        display: false,
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        display: true,
+                        grid: {
+                            display: true
+                        },
+                        min: 0,
+                        max: 1
+                    }
+                },
+            }
+        });
+
+        // Graphique paiements
+        const paymentsCtx = document.getElementById('paymentsChart').getContext('2d');
+        const paymentsChart = new Chart(paymentsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Collecté', 'Restant'],
+                datasets: [{
+                    label: 'Paiements',
+                    data: [{{ $totalCollected }}, {{ $totalExpected - $totalCollected }}],
+                    backgroundColor: ['#4CAF50', '#FF5722'],
+                    hoverOffset: 10,
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: false,
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        display: true,
+                        grid: {
+                            display: true
+                        },
+                        min: 0,
+                        max: 1
+                    }
+                },
+                animation: {
+                    animateRotate: true,
+                    animateScale: true
+                },
+
             }
         });
     </script>

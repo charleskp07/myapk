@@ -22,7 +22,7 @@ class FeeRequest extends FormRequest
      */
     public function rules(): array
     {
-        $fee_id = $this->route('fee') ? $this->route('fee')->id : null;
+        $fee_id = $this->route('fee') ;
 
         return [
             'classroom_id' => ['required', 'exists:classrooms,id'],

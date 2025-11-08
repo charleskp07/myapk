@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaymentRequest;
 use App\Interfaces\PaymentInterface;
 use App\Interfaces\StudentInterface;
+use App\Models\Fee;
 use App\Models\Payment;
 use App\Models\Student;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -43,7 +45,15 @@ class PaymentController extends Controller
 
         $classroom = $student ? $student->classroom : collect();
 
-        $fees = $classroom ? $classroom->fees : collect();
+        $allFees = $student->classroom ? $student->classroom->fees : collect();
+
+        // Filtrer les frais déjà entièrement payés
+        $fees = $allFees->filter(function ($fee) use ($student) {
+            $totalPaid = $student->payments
+                ->where('fee_id', $fee->id)
+                ->sum('amount');
+            return $totalPaid < $fee->amount; // on garde les frais non complètement payés
+        });
 
         return view('admin.payments.create', [
             'students' => $this->studentInterface->index(),
@@ -56,8 +66,22 @@ class PaymentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PaymentRequest $request)
     {
+
+
+        $fee = Fee::find($request->fee_id);
+
+
+        $totalPaid = Payment::where('student_id', $request->student_id)
+            ->where('fee_id', $request->fee_id)
+            ->sum('amount');
+
+        $remainingBefore = $fee->amount - $totalPaid;
+        $newTotal = $totalPaid + $request->amount;
+        $remainingAfter = $fee->amount - $newTotal;
+
+
         $data = [
             'student_id' => $request->student_id,
             'fee_id' => $request->fee_id,
@@ -73,9 +97,16 @@ class PaymentController extends Controller
 
         try {
 
-            $payment= $this->paymentInterface->store($data);
+            $payment = $this->paymentInterface->store($data);
 
             // return back()->with('success', "Paiement ajouté avec succès !");
+
+            session([
+                'remaining_before' => $remainingBefore,
+                'remaining_after' => $remainingAfter,
+                'fee_amount' => $fee->amount,
+                'total_paid' => $newTotal,
+            ]);
 
             return redirect()->route('admin.payments.receipt', $payment->id)
                 ->with('success', 'Paiement ajouté avec succès !');
@@ -87,13 +118,6 @@ class PaymentController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -144,8 +168,23 @@ class PaymentController extends Controller
 
     public function receipt($id)
     {
+
+        // Récupérer le paiement courant avec relations
         $payment = Payment::with(['student', 'fee'])->findOrFail($id);
-        $pdf = Pdf::loadView('admin.pdf.payments.receipt', compact('payment'));
-        return $pdf->stream('recu_' . $payment->reference . '.pdf');
+
+        // Tous les paiements précédents pour le même élève et le même frais
+        $allPayments = Payment::where('student_id', $payment->student_id)
+            ->where('fee_id', $payment->fee_id)
+            ->orderBy('payment_date', 'asc')
+            ->get();
+
+        // Total payé jusqu'à maintenant
+        $totalPaid = $allPayments->sum('amount');
+
+        // Montant restant à payer
+        $remaining = $payment->fee->amount - $totalPaid;
+
+        return Pdf::loadView('admin.pdf.payments.receipt', compact('payment', 'allPayments', 'totalPaid', 'remaining'))
+            ->setPaper('a4')->stream('recu_' . $payment->reference . '.pdf');
     }
 }

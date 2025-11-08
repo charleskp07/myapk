@@ -44,11 +44,11 @@
 
                 <div class="input-cover">
                     <label for="fee_id">Frais</label>
-                    <select name="fee_id" id="fee_id" required>
+                    <select name="fee_id" id="fee_id">
                         <option value="">Sélectionnez un frais</option>
                         @foreach ($fees as $fee)
                             <option value="{{ $fee->id }}" {{ old('fee_id') == $fee->id ? 'selected' : '' }}>
-                                {{ $fee->name }} - {{ number_format($fee->amount, 0, ',', ' ') }} FCFA
+                                {{ $fee->name }} - {{ number_format($fee->amount, 0, ',', ' ') }} XOF
                             </option>
                         @endforeach
                     </select>
@@ -92,15 +92,11 @@
 
                 <div>
                     <button type="submit">Enregistrer le paiement</button>
-                    <a href="{{ url()->previous() }}">Annuler</a>
+                    <a href="javascript:history.back()">Annuler</a>
                 </div>
             </form>
         </div>
     </div>
 @endsection
 
-@if (session('success') && isset($payment))
-    <script>
-        window.open("{{ route('admin.payments.receipt', $payment->id) }}", "_blank");
-    </script>
-@endif
+

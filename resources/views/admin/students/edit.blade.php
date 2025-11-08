@@ -129,7 +129,7 @@
                 
                 <div style="display:flex; gap:10px; margin-top:20px;">
                     <button type="submit" class="">Mettre à jour</button>
-                    <a href="{{ route('students.index') }}" class="btn-cancel">Annuler</a>
+                    <a href="javascript:history.back()" class="btn-cancel">Annuler</a>
                 </div>
             </form>
         </div>

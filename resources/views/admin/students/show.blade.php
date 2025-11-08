@@ -86,10 +86,21 @@
 
         <br />
         <div>
-            <h2>Liste des paiements</h2>
-            <a href="{{ route('payments.create', ['student_id' => $student->id]) }}">
-                Ajouter un paiement
-            </a>
+            <h2>Historique des paiements</h2>
+            @php
+                $hasPendingPayment = $student->classroom->fees
+                    ->filter(function ($fee) use ($student) {
+                        $totalPaid = $student->payments->where('fee_id', $fee->id)->sum('amount');
+                        return $totalPaid < $fee->amount;
+                    })
+                    ->isNotEmpty();
+            @endphp
+
+            @if ($hasPendingPayment)
+                <a href="{{ route('payments.create', ['student_id' => $student->id]) }}">
+                    Ajouter un paiement
+                </a>
+            @endif
         </div>
         <br />
 
@@ -101,9 +112,39 @@
                 <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50px">
             </div>
         @else
-            <p>paiement</p>
+            <table id="paymentDatatables" style="width:100%; border-collapse: collapse;text-align: center;">
+                <thead>
+                    <tr>
+                        <th>Référence</th>
+                        <th>Date Paiement</th>
+                        <th>Frais</th>
+                        <th>Montant</th>
+                        <th>Méthode de paiement</th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($student->payments as $payment)
+                        <tr>
+                            <td>{{ $payment->reference }}</td>
+                            <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
+                            <td>{{ $payment->fee->name ?? '-' }}</td>
+                            <td>{{ number_format($payment->amount, 0, ',', ' ') }} FCFA</td>
+                            <td>{{ ucfirst($payment->payment_method) }}</td>
+                            <td>
+                                <a href="{{ route('admin.payments.receipt', $payment->id) }}" target="_bank">
+                                    Voir le reçu
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         @endif
-        
+
         <br />
         <br />
         <hr>
@@ -206,5 +247,14 @@
             responsive: true,
             info: false,
         });
+
+        new DataTable('#paymentDatatables', {
+            responsive: true,
+            info: false,
+            columnDefs: [{
+                orderable: false,
+                targets: [5],
+            }]
+        })
     </script>
 @endsection
