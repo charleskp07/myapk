@@ -27,7 +27,8 @@
         <div class="">
             <b>Découpage:</b>
             <span>
-                {{ $evaluation->breakdown->name }}
+                {{ $evaluation->breakdown->type }}
+                {{ $evaluation->breakdown->value }}
             </span>
         </div>
 

@@ -16,6 +16,7 @@ class Assignation extends Model
         'subject_id',
         'teacher_id',
         'coefficient',
+        'number_of_hours',
     ];
 
     public function teacher(): BelongsTo

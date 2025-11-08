@@ -9,8 +9,8 @@ class SubjectRepository implements SubjectInterface
 {
     public function index()
     {
-        return Subject::all();
-        // return Subject::orderBy('name')->get();
+        // return Subject::all();
+        return Subject::orderBy('name')->get();
     }
 
     public function store(array $data)

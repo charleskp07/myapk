@@ -40,7 +40,7 @@
                         <option value="">-- Sélectionner un enseignant --</option>
                         @foreach ($teachers as $teacher)
                             <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
-                                {{ $teacher->last_name }} {{ $teacher->first_name }}
+                                {{ strtoupper($teacher->last_name )}} {{ $teacher->first_name }}
                             </option>
                         @endforeach
                     </select>
@@ -81,6 +81,13 @@
                     <label for="coefficient">Coefficient </label>
                     <input type="number" id="coefficient" name="coefficient" value="{{ old('coefficient', 1) }}"
                         min="1" max="10" placeholder="Valeur entre 1 et 10">
+
+                </div>
+
+                <div class="input-cover">
+                    <label for="number_of_hours">Nombre d'heure de cours </label>
+                    <input type="number" id="number_of_hours" name="number_of_hours" value="{{ old('number_of_hours', 1) }}"
+                        min="1" max="6" placeholder="Valeur entre 1 et 6">
 
                 </div>
 

@@ -6,9 +6,9 @@
     <div>
         <h1>Payements</h1>
 
-        <a href="{{ route('payments.create') }}">
+        {{-- <a href="{{ route('payments.create') }}">
            Enregistrer un payement
-        </a>
+        </a> --}}
     </div>
 
     @if ($message = Session::get('success'))

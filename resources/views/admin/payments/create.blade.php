@@ -1,0 +1,106 @@
+@extends('layouts.authchecked')
+
+@section('title', 'Créer un paiement')
+
+@section('content')
+    <div>
+        <div>
+            <h2>Création de Paiement</h2>
+            <p>Remplir les informations pour enregistrer un nouveau paiement.</p>
+            <br />
+
+            @if ($errors->any())
+                <ul class="form-errors-list">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <br />
+            @endif
+
+            @if ($message = Session::get('success'))
+                <p class="alert-success">{{ $message }}</p>
+                <br />
+            @endif
+
+            <form action="{{ route('payments.store') }}" method="POST">
+                @csrf
+
+
+                <div class="input-cover">
+                    <label for="student_id">Élève</label>
+                    <select name="student_id" id="student_id">
+                        <option value="">Sélectionnez un élève</option>
+                        @forelse ($students as $student)
+                            <option value="{{ $student->id }}"
+                                {{ (isset($student_id) && $student_id == $student->id) || old('student_id') == $student->id ? 'selected' : '' }}>
+                                {{ $student->first_name }} {{ $student->last_name }}
+                            </option>
+                        @empty
+                            <option value="">Aucun élève trouvé</option>
+                        @endforelse
+                    </select>
+                </div>
+
+                <div class="input-cover">
+                    <label for="fee_id">Frais</label>
+                    <select name="fee_id" id="fee_id" required>
+                        <option value="">Sélectionnez un frais</option>
+                        @foreach ($fees as $fee)
+                            <option value="{{ $fee->id }}" {{ old('fee_id') == $fee->id ? 'selected' : '' }}>
+                                {{ $fee->name }} - {{ number_format($fee->amount, 0, ',', ' ') }} FCFA
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+
+                <div class="input-cover">
+                    <label for="amount">Montant</label>
+                    <input type="number" name="amount" id="amount" step="100" value="{{ old('amount') }}"
+                        placeholder="Ex: 10000">
+                </div>
+
+
+                <div class="input-cover">
+                    <label for="payment_method">Méthode de paiement</label>
+                    <select name="payment_method" id="payment_method">
+                        <option value="">Sélectionnez une méthode</option>
+
+                        @foreach (\App\Enums\PaymentTypeEnums::cases() as $method)
+                            <option value="{{ $method->value }}"
+                                {{ old('payment_method') === $method->value ? 'selected' : '' }}>
+                                {{ $method->value }}
+                            </option>
+                        @endforeach
+
+                    </select>
+                </div>
+
+
+                <div class="input-cover">
+                    <label for="payment_date">Date de paiement</label>
+                    <input type="date" name="payment_date" id="payment_date"
+                        value="{{ old('payment_date', date('Y-m-d')) }}">
+                </div>
+
+
+                <div class="input-cover">
+                    <label for="note">Note / Observation</label>
+                    <textarea name="note" id="note" rows="3" placeholder="Ex: Paiement de la cantine, acompte...">{{ old('note') }}</textarea>
+                </div>
+
+                <div>
+                    <button type="submit">Enregistrer le paiement</button>
+                    <a href="{{ url()->previous() }}">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+
+@if (session('success') && isset($payment))
+    <script>
+        window.open("{{ route('admin.payments.receipt', $payment->id) }}", "_blank");
+    </script>
+@endif

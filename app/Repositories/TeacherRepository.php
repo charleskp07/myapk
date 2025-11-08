@@ -9,7 +9,8 @@ class TeacherRepository implements TeacherInterface
 {
      public function index()
     {
-        return Teacher::all();
+        // return Teacher::all();
+        return Teacher::orderBy('last_name')->get();
     }
 
     public function store(array $data)

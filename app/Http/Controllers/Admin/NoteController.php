@@ -55,7 +55,7 @@ class NoteController extends Controller
 
             return back()->with('success', "Notes remplies avec succès !");
         } catch (\Exception $ex) {
-            return $ex;
+            // return $ex;
             return back()->withErrors([
                 'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
             ])->withInput();
@@ -69,7 +69,6 @@ class NoteController extends Controller
     {
         return view("admin.notes.edit", [
             'evaluation' => $this->evaluationInterface->show($id),
-
         ]);
     }
 
@@ -90,7 +89,7 @@ class NoteController extends Controller
 
             return back()->with('success', "Notes mise à jour avec succès !");
         } catch (\Exception $ex) {
-            return $ex;
+            // return $ex;
             return back()->withErrors([
                 'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
             ])->withInput();

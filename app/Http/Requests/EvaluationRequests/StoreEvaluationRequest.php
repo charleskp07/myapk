@@ -2,8 +2,12 @@
 
 namespace App\Http\Requests\EvaluationRequests;
 
+use App\Enums\BreakdownNameEnums;
+use App\Enums\ClassroomLevelEnums;
 use App\Enums\EvaluationTypeEnums;
 use App\Enums\NoteMaxEnums;
+use App\Models\Assignation;
+use App\Models\Breakdown;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -54,6 +58,35 @@ class StoreEvaluationRequest extends FormRequest
 
             'bareme_id' => 'required|exists:baremes,id',
         ];
+    }
+
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $assignation = $this->assignation_id
+                ? Assignation::with('classroom')->find($this->assignation_id)
+                : null;
+
+            $breakdown = $this->breakdown_id
+                ? Breakdown::find($this->breakdown_id)
+                : null;
+
+            if (!$assignation || !$breakdown || !$assignation->classroom) {
+                return;
+            }
+
+            $level = $assignation->classroom->level;
+            $type = $breakdown->type;
+
+            if ($level === ClassroomLevelEnums::LYCEE->value && $type === BreakdownNameEnums::TRIMESTRE->value) {
+                $validator->errors()->add('breakdown_id', 'Vous ne pouvez pas choisir un Trimestre pour une classe de lycée.');
+            }
+
+            if ($level === ClassroomLevelEnums::COLLEGE->value && $type === BreakdownNameEnums::SEMESTRE->value) {
+                $validator->errors()->add('breakdown_id', 'Vous ne pouvez pas choisir un Semestre pour une classe de collège.');
+            }
+        });
     }
 
     public function messages(): array

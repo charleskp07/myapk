@@ -47,6 +47,17 @@ class Student extends Model
         return $this->hasMany(Note::class);
     }
 
+    public function fees(): HasMany
+    {
+        return $this->hasMany(Fee::class, 'classroom_id', 'classroom_id');
+    }
+
+    public function totalFees()
+    {
+        return $this->fees()->sum('amount');
+    }
+
+
     public function getFullNameAttribute()
     {
         return $this->user->first_name . ' ' . $this->user->last_name;
@@ -65,6 +76,4 @@ class Student extends Model
     {
         return $this->photo ? Storage::url($this->photo) : asset('images/default-avatar.png');
     }
-
-
 }

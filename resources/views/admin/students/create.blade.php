@@ -42,9 +42,8 @@
                                 {{ (isset($classroom_id) && $classroom_id == $classroom->id) || old('classroom_id') == $classroom->id ? 'selected' : '' }}>
                                 {{ $classroom->name }} {{ $classroom->section }}
                             </option>
-
                         @empty
-                            <option value="">Pas de classe créer</option>
+                            <option value="">Aucune salle de classe n'a été trouvée</option>
                         @endforelse
                     </select>
                 </div>

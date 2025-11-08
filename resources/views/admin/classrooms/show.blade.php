@@ -6,7 +6,7 @@
 
     <div>
         <div class="back-btn">
-            <a href="{{ route('classrooms.index') }}">
+            <a href="{{ url()->previous() }}">
                 <i class="bi bi-arrow-left"></i>
                 Retour
             </a>
@@ -32,9 +32,10 @@
                 {{ $classroom->section }}<br>
             </p>
 
+
             <p>
                 <strong>Enseignant titulaire:</strong>
-                {{ $classroom->teacher ? $classroom->teacher->last_name . ' ' . $classroom->teacher->first_name : 'Pas defini' }}<br>
+                {{ $classroom->teacher ? strtoupper($classroom->teacher->last_name) . ' ' . $classroom->teacher->first_name : 'Pas defini' }}<br>
             </p>
 
             <p>
@@ -43,10 +44,65 @@
             </p>
 
             <p>
-                <a href="{{ route('admin.list.students.pdf', ['classroom_id' => $classroom->id]) }}">
+                <a href="{{ route('admin.list.students.pdf', ['classroom_id' => $classroom->id]) }}" target="_blank">
                     Telecharger la liste des apprenants (Version PDF)
                 </a>
             </p>
+        </div>
+
+        <br />
+        <br />
+
+        <div>
+            <div>
+                <h2>Listes des frais associés</h2>
+
+                <a href="{{ route('fees.create', ['classroom_id' => $classroom->id]) }}">
+                    Ajouter un frais
+                </a>
+            </div>
+
+            @if ($classroom->fees->isEmpty())
+                <div style="text-align: center">
+                    <p>Aucun Frais n'est associé(e) à la {{ $classroom->name }} {{ $classroom->section }}</p>
+                    <br />
+                    <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
+                </div>
+            @else
+                <table class="fees-table" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                    <thead>
+                        <tr style="background: #f3f4f6; text-align: left;">
+                            <th style="padding: 10px;">#</th>
+                            <th style="padding: 10px;">Nom du frais</th>
+                            <th style="padding: 10px;">Montant</th>
+                            <th style="padding: 10px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($classroom->fees as $index => $fee)
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                                <td style="padding: 8px;">{{ $index + 1 }}</td>
+                                <td style="padding: 8px;">{{ $fee->name }}</td>
+                                <td style="padding: 8px;">{{ number_format($fee->amount, 0, ',', ' ') }} XOF</td>
+                                <td style="padding: 8px;">
+                                    <a href="{{ route('fees.edit', $fee->id) }}"
+                                        style="color: #2563eb; text-decoration: none;">Modifier</a> 
+                                    {{-- <form action="{{ route('fees.destroy', $fee->id) }}" method="POST"
+                                        style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            style="background: none; border: none; color: #dc2626; cursor: pointer;"
+                                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais ?')">
+                                            Supprimer
+                                        </button>
+                                    </form> --}}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
 
 
@@ -95,7 +151,7 @@
                             @foreach ($classroom->students as $student)
                                 <tr>
                                     <td onclick='onStudentClick("{{ $student->id }}")'>
-                                        {{ $student->last_name }}
+                                        {{ strtoupper($student->last_name) }}
                                     </td>
 
                                     <td onclick='onStudentClick("{{ $student->id }}")'>
@@ -179,6 +235,7 @@
                                 <th>Enseignant</th>
                                 <th>Matière</th>
                                 <th class="label-first no-sort">Coefficient</th>
+                                <th>Nombre d'heure de cours</th>
                                 <th width="40"></th>
                             </tr>
                         </thead>
@@ -187,7 +244,8 @@
                             @foreach ($classroom->assignations as $assignation)
                                 <tr>
                                     <td onclick='onTeacherClick("{{ $assignation->teacher->id }}")'>
-                                        {{ $assignation->teacher->last_name }} {{ $assignation->teacher->first_name }}
+                                        {{ strtoupper($assignation->teacher->last_name) }}
+                                        {{ $assignation->teacher->first_name }}
                                     </td>
 
 
@@ -197,6 +255,10 @@
 
                                     <td onclick='onTeacherClick("{{ $assignation->teacher->id }}")'>
                                         {{ $assignation->coefficient }}
+                                    </td>
+
+                                    <td onclick='onTeacherClick("{{ $assignation->teacher->id }}")'>
+                                        {{ $assignation->number_of_hours }} Heures
                                     </td>
 
 
@@ -358,9 +420,9 @@
                 @endforeach
             </select>
 
-           <div style="max-width: 450px">
-                 <canvas id="classChart"></canvas>
-           </div>
+            <div style="max-width: 450px">
+                <canvas id="classChart"></canvas>
+            </div>
         </div>
 
     </div>
@@ -384,7 +446,7 @@
             info: false,
             columnDefs: [{
                 orderable: false,
-                targets: [3],
+                targets: [4],
             }]
 
         })

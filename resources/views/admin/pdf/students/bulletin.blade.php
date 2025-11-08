@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bulletin - {{ $student->last_name }}</title>
+    <title>Bulletin - {{ $student->last_name }} {{ $student->first_name }}</title>
     <style>
         body {
             font-family: "Times New Roman", serif;

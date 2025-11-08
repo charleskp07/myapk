@@ -55,7 +55,8 @@
                     @foreach ($evaluations as $evaluation)
                         <tr>
                             <td onclick='onRowClick("{{ $evaluation->id }}")'>
-                                {{ $evaluation->breakdown->name }}
+                                {{ $evaluation->breakdown->type }}
+                                {{ $evaluation->breakdown->value }}
                             </td>
 
                             <td onclick='onRowClick("{{ $evaluation->id }}")'>

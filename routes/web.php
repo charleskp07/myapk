@@ -5,12 +5,14 @@ use App\Http\Controllers\Admin\AssignationController;
 use App\Http\Controllers\Admin\BulletinController;
 use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\EvaluationController;
+use App\Http\Controllers\Admin\FeeController;
 use App\Http\Controllers\Admin\NoteController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\Settings\AppreciationSettingController;
 use App\Http\Controllers\Admin\Settings\BaremeSettingController;
 use App\Http\Controllers\Admin\Settings\BreakdownSettingController;
+use App\Http\Controllers\Admin\Settings\SchoolSettinglController;
 use App\Http\Controllers\Admin\Settings\SettingViewsController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
@@ -42,7 +44,7 @@ Route::post('/newPassword', [ProcessingAuthController::class, "newPassword"])->n
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminController::class, "dashboard"])->name("dashboard");
     Route::get('/logout', [ProcessingAuthController::class, "logout"])->name('logout');
-    
+
     Route::resource('/classrooms', ClassroomController::class);
     Route::get('/classroom/{id}/stats/data', [ClassroomController::class, 'statsData'])->name('classroom.stats.data');
     Route::get('/classroom/student-list/pdf', [ClassroomController::class, 'exportStudentsListPdf'])->name('admin.list.students.pdf');
@@ -56,16 +58,19 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/notes/{id}/update', [NoteController::class, 'update'])->name('notes.update');
     Route::post('/notes/store', [NoteController::class, 'store'])->name('notes.store');
     Route::resource('/payments', PaymentController::class);
-    
+    Route::get('/admin/payments/{id}/receipt', [PaymentController::class, 'receipt'])->name('admin.payments.receipt');
+    Route::resource('/fees', FeeController::class);
+
     Route::get('/bulletin', [BulletinController::class, 'bulletinView'])->name('admin.bulletin.view');
     Route::get('/bulletin/export-pdf', [BulletinController::class, 'exportPDF'])->name('admin.bulletin.pdf');
-    
+
     //Routes des paramtrages
     Route::get('/settings', [SettingViewsController::class, "settingsIndex"])->name("admin.settings.index");
     Route::get('/settings/note-settings', [SettingViewsController::class, "noteSettingsIndex"])->name("admin.settings.notes.index");
     Route::resource('/settings/baremes', BaremeSettingController::class)->names('admin.baremes');
     Route::resource('/settings/note-appreciations', AppreciationSettingController::class)->names('admin.appreciations');
     Route::resource('/settings/breakdowns', BreakdownSettingController::class)->names('admin.breakdowns');
+    Route::resource('/settings/school-setting', SchoolSettinglController::class)->names('admin.schoolsetting');
 
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');

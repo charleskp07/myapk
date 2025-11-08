@@ -27,6 +27,14 @@
                     </div>
                 </a>
             </li>
+
+            <li>
+                <a href="{{route('admin.schoolsetting.index')}}">
+                    <div>
+                        Paramétre généraux de l'etablissement
+                    </div>
+                </a>
+            </li>
         </ul>
     </nav>
 @endsection

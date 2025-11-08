@@ -6,7 +6,7 @@
 
     <div>
         <div class="back-btn">
-            <a href="{{ route('teachers.index') }}">
+            <a href="{{ url()->previous() }}">
                 <i class="bi bi-arrow-left"></i>
                 Retour
             </a>
@@ -56,7 +56,7 @@
                 </p>
 
                 <br /><br /><br />
-                <p>               
+                <p>
                     <a href="{{ route('teachers.edit', $teacher->id) }}">
                         <i class="fa-solid fa-pen-to-square"></i>
                         Modifier
@@ -96,8 +96,12 @@
                             coefficient
                         </th>
 
+                        <th>
+                            Nombre d'heure de cours
+                        </th>
+
                         <th width="40">
-                            
+
                         </th>
                     </tr>
                 </thead>
@@ -112,6 +116,10 @@
                             </td>
                             <td>
                                 {{ $assignation->coefficient }}
+                            </td>
+
+                            <td>
+                                {{ $assignation->number_of_hours }} Heures
                             </td>
 
                             <td>
@@ -171,7 +179,7 @@
             info: false,
             columnDefs: [{
                 orderable: false,
-                targets: [3],
+                targets: [4],
             }]
         });
     </script>

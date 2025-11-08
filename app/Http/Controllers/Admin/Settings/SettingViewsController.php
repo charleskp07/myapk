@@ -17,6 +17,4 @@ class SettingViewsController extends Controller
     }
 
 
-
-
 }

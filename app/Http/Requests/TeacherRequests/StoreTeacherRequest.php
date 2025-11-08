@@ -32,10 +32,10 @@ class StoreTeacherRequest extends FormRequest
             'date_of_birth' => 'required|date',
             'place_of_birth' => 'required|string|max:255',
             'gender' => ['required', Rule::in([
-               GenderEnums::FEMININ->value,
-               GenderEnums::MASCULIN->value,
+                GenderEnums::FEMININ->value,
+                GenderEnums::MASCULIN->value,
             ])],
-            'email' => 'required|email|unique:teachers,email',
+            'email' => 'required|email|unique:teachers,email|unique:users,email',
             'phone' => 'nullable|string|max:20',
             'speciality' => 'required|string|max:255',
         ];
@@ -64,7 +64,7 @@ class StoreTeacherRequest extends FormRequest
             if ($this->has('date_of_birth')) {
                 $dateOfBirth = Carbon::parse($this->date_of_birth);
                 $ageMinimum = Carbon::now()->subYears(20);
-                
+
                 if ($dateOfBirth->greaterThan($ageMinimum)) {
                     $validator->errors()->add('date_of_birth', 'L\'enseignant doit avoir au moins 20 ans');
                 }

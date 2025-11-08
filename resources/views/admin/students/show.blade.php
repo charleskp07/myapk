@@ -6,7 +6,7 @@
 @section('content')
     <div>
         <div class="back-btn">
-            <a href="{{ route('students.index') }}">
+            <a href="{{ url()->previous() }}">
                 <i class="bi bi-arrow-left"></i>
                 Retour
             </a>
@@ -16,7 +16,8 @@
 
         <br />
         <div style="display: flex; gap: 20px;">
-            <img src="{{ $student->photo_url }}" alt="{{ $student->full_name }}" width="200" style="border-radius: 20px; aspect-ratio: 1/1;">
+            <img src="{{ $student->photo_url }}" alt="{{ $student->full_name }}" width="200"
+                style="border-radius: 20px; aspect-ratio: 1/1;">
 
             <div>
                 <p>
@@ -56,7 +57,7 @@
                 </p>
                 <br />
 
-                <p>               
+                <p>
                     <a href="{{ route('students.edit', $student->id) }}">
                         <i class="fa-solid fa-pen-to-square"></i>
                         Modifier
@@ -69,8 +70,8 @@
                             Voir bulletin du {{ $breakdown->name }}
                             <i class="bi bi-arrow-right"></i>
                         </a> --}}
-                        <a
-                            href="{{ route('admin.bulletin.pdf', ['student_id' => $student->id, 'breakdown_id' => $breakdown->id]) }}">
+                        <a href="{{ route('admin.bulletin.pdf', ['student_id' => $student->id, 'breakdown_id' => $breakdown->id]) }}"
+                            target="_blank">
                             Télécharger le Bulletin du {{ $breakdown->type }} {{ $breakdown->value }} ( Version PDF)
                         </a>
                         <br />
@@ -83,6 +84,28 @@
         <br />
         <br />
 
+        <br />
+        <div>
+            <h2>Liste des paiements</h2>
+            <a href="{{ route('payments.create', ['student_id' => $student->id]) }}">
+                Ajouter un paiement
+            </a>
+        </div>
+        <br />
+
+
+
+        @if ($student->payments->isEmpty())
+            <div style="text-align: center">
+                <p>--Aucune paiement enregistrée pour cet apprenant--</p>
+                <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50px">
+            </div>
+        @else
+            <p>paiement</p>
+        @endif
+        
+        <br />
+        <br />
         <hr>
 
         <br />

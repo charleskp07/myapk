@@ -31,6 +31,7 @@
                         <th>Enseignant</th>
                         <th>Matière</th>
                         <th class="label-first no-sort">Coefficient</th>
+                        <th>Nombre d'heure de cours</th>
                         <th width="40"></th>
                     </tr>
                 </thead>
@@ -53,10 +54,14 @@
                                 {{ $assignation->subject->name }}
                             </td>
 
+                            
                             <td onclick='onRowClick("{{ $assignation->teacher->id }}")'>
                                 {{ $assignation->coefficient }}
                             </td>
-
+                            
+                            <td onclick='onRowClick("{{ $assignation->teacher->id }}")'>
+                                {{ $assignation->number_of_hours }} Heures
+                            </td>
 
                             <td>
                                 <div class="dropdown-cover">
@@ -118,7 +123,7 @@
             info: false,
             columnDefs: [{
                 orderable: false,
-                targets: [4],
+                targets: [5],
             }]
         });
 

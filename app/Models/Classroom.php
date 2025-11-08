@@ -48,6 +48,12 @@ class Classroom extends Model
         );
     }
 
+
+    public function fees(): HasMany
+    {
+        return $this->hasMany(Fee::class);
+    }
+
     public function getFullNameAttribute()
     {
         return $this->name . ' ' . $this->section;

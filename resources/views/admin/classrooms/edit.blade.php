@@ -64,7 +64,7 @@
                         <option value="">--Selectionner un enseignant--</option>
                         @forelse ($teachers as $teacher)
                             <option value="{{$teacher->id}}"  {{old('teacher_id',$classroom->teacher_id ) == $teacher->id ? 'selected' : ''}}>
-                                {{$teacher->last_name}} {{$teacher->first_name}}
+                                {{ strtoupper($teacher->last_name )}} {{ $teacher->first_name }}
                             </option>        
                         @empty
                             <option value="">aucun enseignant n'a été trouvé</option>
