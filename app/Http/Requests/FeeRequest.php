@@ -22,20 +22,23 @@ class FeeRequest extends FormRequest
      */
     public function rules(): array
     {
-        $fee_id = $this->route('fee') ;
+        $fee_id = $this->route('fee');
 
         return [
             'classroom_id' => ['required', 'exists:classrooms,id'],
             'name' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'min:100'],
             'type' => ['required', 'string'],
+            'deadline' => 'required|date|after_or_equal:today',
+
 
             Rule::unique('fees')
-                ->where(fn($query) => $query
-                    ->where('classroom_id', $this->classroom_id)
-                    ->where('name', $this->name)
-                    ->where('amount', $this->amount)
-                    ->where('type', $this->type)
+                ->where(
+                    fn($query) => $query
+                        ->where('classroom_id', $this->classroom_id)
+                        ->where('name', $this->name)
+                        ->where('amount', $this->amount)
+                        ->where('type', $this->type)
                 )
                 ->ignore($fee_id),
         ];
@@ -52,6 +55,9 @@ class FeeRequest extends FormRequest
             'amount.min' => 'Le montant doit être au moins 100 XOF.',
             'type.required' => 'Le type de frais est obligatoire.',
             'fees.unique' => 'Un frais identique existe déjà pour cette classe.',
+            'deadline.required' => 'La date limite de paiement est obligatoire.',
+            'deadline.date' => 'La date limite doit être une date valide.',
+            'deadline.after_or_equal' => 'La date limite doit être aujourd’hui ou une date ultérieure.',
         ];
     }
 }

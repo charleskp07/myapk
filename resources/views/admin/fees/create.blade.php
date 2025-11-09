@@ -72,6 +72,11 @@
                         </select>
                     </div>
 
+                    <div class="input-cover">
+                        <label for="deadline">Date limite de paiement</label>
+                        <input type="date" id="deadline" name="deadline" value="{{ old('deadline') }}">
+                    </div>
+
                     <div>
                         <button type="submit">
                             Enregistre le frais

@@ -22,6 +22,7 @@ return new class extends Migration
                 FeeTypeEnums::OBLIGATOIRE->value,
                 FeeTypeEnums::OPTIONNEL->value,
             ])->default(FeeTypeEnums::OBLIGATOIRE->value);
+            $table->date('deadline')->nullable();
             $table->timestamps();
         });
     }
