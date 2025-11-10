@@ -72,7 +72,7 @@ class PaymentRequest extends FormRequest
                 $newTotal = $totalPaid + $this->amount;
 
                 if ($newTotal > $fee->amount) {
-                    $validator->errors()->add('amount', "Le montant total payé ({$newTotal} XOF) dépasse le montant du frais ({$fee->amount} XOF). Paiement refusé, veuillez réessayer !");
+                    $validator->errors()->add('amount', "Le montant total payé dépasse le montant du frais ({$fee->amount} XOF). Paiement refusé, veuillez réessayer !");
                 }
             }
         });

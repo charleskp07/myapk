@@ -75,7 +75,7 @@
                 
                 <tr>
                     <th colspan="4" style="text-align:right;">Total Collecté :</th>
-                    <th colspan="3" class="{{ ($totalExpected - $totalCollected) > $totalCollected ? 'form-errors-list' : 'alert-success' }}">{{ number_format($totalCollected, 0, ',', ' ') }} FCFA
+                    <th colspan="3" class="{{ ($totalExpected - $totalCollected) > $totalCollected ? 'form-errors-list' : 'alert-success' }}">{{ number_format($totalCollected, 0, ',', ' ') }} XOF
                     </th>
                 </tr>
             </tfoot>

@@ -1,6 +1,6 @@
 @extends('layouts.authchecked')
 
-@section('title', 'Paramètres généraux de l’établissement')
+@section('title', 'Paramètres généraux de l\'établissement')
 
 @section('content')
     <div class="dashboard-cover">

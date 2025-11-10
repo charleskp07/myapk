@@ -80,48 +80,53 @@ a {
 
 
 .chart-cover {
-    display: flex;
+    display: grid;
+    display: -ms-grid;
+    display: -moz-grid;
+    grid-template-columns: 1fr 1fr;
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: center;
     gap: 20px;
     margin-top: 40px;
 
-    .chart {
-        flex: 1 1 280px;
-        max-width: 360px;
-        display: flex;
-        justify-content: center;
+    >div {
+        .chart {
+            flex: 1 1 280px;
+            max-width: 360px;
+            display: flex;
+            justify-content: center;
 
-        >canvas {
-            max-width: 100%;
-            height: auto;
-        }
-    }
-
-    .chart-legend {
-        flex: 1 1 250px;
-        min-width: 250px;
-        font-size: 16px;
-
-        >h4 {
-            margin-bottom: 12px;
-        }
-
-        >ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 0;
-
-            >li {
-                margin-bottom: 10px;
-                display: flex;
-                align-items: center;
+            >canvas {
+                max-width: 100%;
+                height: auto;
             }
         }
 
-        >p {
-            margin-top: 15px;
+        .chart-legend {
+            flex: 1 1 250px;
+            min-width: 250px;
+            font-size: 16px;
+
+            >h4 {
+                margin-bottom: 12px;
+            }
+
+            >ul {
+                list-style: none;
+                padding-left: 0;
+                margin: 0;
+
+                >li {
+                    margin-bottom: 10px;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            >p {
+                margin-top: 15px;
+            }
         }
     }
 }
@@ -431,6 +436,15 @@ table.customTable thead {
     left: 270px;
     top: 0px;
     right: 10px;
+}
+
+@media (max-width: 799px) {
+    .chart-cover {
+        display: grid;
+        display: -ms-grid;
+        display: -moz-grid;
+        grid-template-columns: 1fr;
+    }
 }
 
 

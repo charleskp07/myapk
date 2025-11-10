@@ -61,7 +61,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/payments/{id}/receipt', [PaymentController::class, 'receipt'])->name('admin.payments.receipt');
     Route::resource('/fees', FeeController::class);
 
-    Route::get('/bulletin', [BulletinController::class, 'bulletinView'])->name('admin.bulletin.view');
     Route::get('/bulletin/export-pdf', [BulletinController::class, 'exportPDF'])->name('admin.bulletin.pdf');
 
     //Routes des paramtrages

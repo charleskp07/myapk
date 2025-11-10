@@ -36,7 +36,7 @@ class AuthController extends Controller
                     'error' => 'E-mail ou mot de passe invalide•s.',
                 ])->withInput();
 
-            return redirect()->route('auth.two-factor');;
+            return redirect()->route('auth.two-factor');
         } catch (\Exception $ex) {
             // return $ex;
             return back()->withErrors([
