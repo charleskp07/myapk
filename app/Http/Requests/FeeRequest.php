@@ -57,7 +57,7 @@ class FeeRequest extends FormRequest
             'fees.unique' => 'Un frais identique existe déjà pour cette classe.',
             'deadline.required' => 'La date limite de paiement est obligatoire.',
             'deadline.date' => 'La date limite doit être une date valide.',
-            'deadline.after_or_equal' => 'La date limite doit être aujourd’hui ou une date ultérieure.',
+            'deadline.after_or_equal' => 'La date limite doit être aujourd\'hui ou une date ultérieure.',
         ];
     }
 }

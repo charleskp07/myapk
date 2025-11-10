@@ -16,7 +16,7 @@
         </li>
 
         <li>
-            <a href="{{ route('classrooms.index') }}">
+            <a href="{{ route('classrooms.index') }}" class="{{isset($page) && $page == 'classrooms' ? 'active' : '' }}">
                 <div>
                     <i class="bi bi-door-open"></i>
                     <span>Gestion des Salles</span>
@@ -25,8 +25,8 @@
         </li>
 
         <li>
-            <a href="{{ route('students.index') }}">
-                <div>
+            <a href="{{ route('students.index') }}" class="{{isset($page) && $page == 'students' ? 'active' : '' }}">
+                <div >
                     <i class="bi bi-mortarboard-fill"></i>
                     <span>Gestion des Apprenants</span>
                 </div>
@@ -111,9 +111,9 @@
     });
 
 
-    links.forEach(link => {
-        if (link.href === window.location.href) {
-            link.classList.add('active');
-        }
-    });
+    // links.forEach(link => {
+    //     if (link.href === window.location.href) {
+    //         link.classList.add('active');
+    //     }
+    // });
 </script>

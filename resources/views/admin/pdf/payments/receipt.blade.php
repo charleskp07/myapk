@@ -1,11 +1,5 @@
 @php
     $school = \App\Models\SchoolSetting::first();
-    // $allPayments = \App\Models\Payment::where('student_id', $payment->student_id)
-    //     ->where('fee_id', $payment->fee_id)
-    //     ->orderBy('payment_date', 'asc')
-    //     ->get();
-    // $totalPaid = $allPayments->sum('amount');
-    // $remaining = $payment->fee->amount - $totalPaid;
 @endphp
 
 <!DOCTYPE html>
@@ -13,7 +7,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Reçu de Paiement - {{ strtoupper($school->name) }}</title>
+    <title>Reçu de Paiement - {{ mb_strtoupper($school->name) }}</title>
     <style>
         body {
             font-family: "Times New Roman", serif;
@@ -67,9 +61,9 @@
 <body>
     <div class="header">
         <img src="{{ public_path('storage/' . $school->logo) }}" alt="Logo" class="logo" width="150">
-        <h2>{{ strtoupper($school->name) }}</h2>
+        <h2>{{ mb_strtoupper($school->name) }}</h2>
         <p>{{ $school->address }} - {{ $school->phone }}</p>
-        <h3>REÇU DE PAIEMENT DE {{ strtoupper($payment->fee->name) }} </h3>
+        <h3>REÇU DE PAIEMENT DE {{ mb_strtoupper($payment->fee->name) }} </h3>
     </div>
     <hr style="height: 1px; background-color: #333; border: none;">
 
@@ -124,7 +118,7 @@
     <div class="footer">
         <p><em>Ce reçu est généré le {{ now()->format('d/m/Y à H:i') }}</em></p>
         <p><em>Merci pour votre confiance</em></p>
-        <p style="font-size: 10px">&copy; {{ date('Y') }} - {{ strtoupper($school->name) }}</p>
+        <p style="font-size: 10px">&copy; {{ date('Y') }} - {{ mb_strtoupper($school->name) }}</p>
     </div>
 </body>
 
