@@ -4,6 +4,7 @@
 
 @section('content')
     <div>
+        <a href="javascript:history.back()">Retour</a>
         <div>
             <h2 class="">Modifier le découpage</h2>
             <br />

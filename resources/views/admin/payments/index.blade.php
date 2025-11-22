@@ -14,7 +14,7 @@
     @if ($payments->isEmpty())
         <div style="text-align: center;">
             <p>--Aucun paiement n'a été enregistré--</p><br />
-            <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
+            <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50" class="empty-icon">
         </div>
     @else
         <table style="width:100%; border-collapse: collapse; text-align: center;" id="datatables">

@@ -15,7 +15,7 @@
         <h1>{{ $teacher->last_name }} {{ $teacher->first_name }}</h1>
 
         <br />
-        <div style="display: flex; gap: 20px;">
+        <div class="student-info">
             <img src="{{ $teacher->photo_url }}" alt="{{ $teacher->full_name }}" width="200" style="border-radius: 20px">
 
             <div>
@@ -78,7 +78,7 @@
         @if ($teacher->assignations->isEmpty())
             <div style="text-align: center">
                 <p>--Aucune assignation enregistrée pour cet(te) enseignant(e)--</p>
-                <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50px">
+                <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50px" class="empty-icon">
             </div>
         @else
             <table id="datatables">
@@ -119,7 +119,7 @@
                             </td>
 
                             <td>
-                                {{ $assignation->number_of_hours }} Heures
+                                {{ $assignation->weekly_hours }} Heures
                             </td>
 
                             <td>

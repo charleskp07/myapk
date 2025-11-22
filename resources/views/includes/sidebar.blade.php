@@ -7,7 +7,7 @@
 
     <ul>
         <li>
-            <a href="{{ route('dashboard') }}">
+            <a href="{{ route('dashboard') }}" class="{{isset($page) && $page == 'dashboard' ? 'active' : '' }}">
                 <div>
                     <i class="fa fa-gauge"></i>
                     <span>Tableau de bord</span>
@@ -16,7 +16,7 @@
         </li>
 
         <li>
-            <a href="{{ route('classrooms.index') }}">
+            <a href="{{ route('classrooms.index') }}" class="{{isset($page) && $page == 'classrooms' ? 'active' : '' }}">
                 <div>
                     <i class="bi bi-door-open"></i>
                     <span>Gestion des Salles</span>
@@ -25,8 +25,8 @@
         </li>
 
         <li>
-            <a href="{{ route('students.index') }}">
-                <div>
+            <a href="{{ route('students.index') }}" class="{{isset($page) && $page == 'students' ? 'active' : '' }}">
+                <div >
                     <i class="bi bi-mortarboard-fill"></i>
                     <span>Gestion des Apprenants</span>
                 </div>
@@ -34,7 +34,7 @@
         </li>
 
         <li>
-            <a href="{{ route('teachers.index') }}">
+            <a href="{{ route('teachers.index') }}" class="{{isset($page) && $page == 'teachers' ? 'active' : '' }}">
                 <div>
                     <i class="fa-solid fa-person-chalkboard"></i>
                     <span>Gestion des Enseignants</span>
@@ -43,7 +43,7 @@
         </li>
 
         <li>
-            <a href="{{ route('subjects.index') }}">
+            <a href="{{ route('subjects.index') }}" class="{{isset($page) && $page == 'subjects' ? 'active' : '' }}">
                 <div>
                     <i class="fa-solid fa-book"></i>
                     <span>Gestion des Matières</span>
@@ -52,7 +52,7 @@
         </li>
 
         <li>
-            <a href="{{ route('assignations.index') }}">
+            <a href="{{ route('assignations.index') }}" class="{{isset($page) && $page == 'assignations' ? 'active' : '' }}">
                 <div>
                     <i class="fa-solid fa-scroll"></i>
                     <span>Gestion des Assignations</span>
@@ -61,7 +61,7 @@
         </li>
 
         <li>
-            <a href="{{ route('evaluations.index') }}">
+            <a href="{{ route('evaluations.index') }}"  class="{{isset($page) && $page == 'evaluations' ? 'active' : '' }}">
                 <div>
                     <i class="fa-solid fa-layer-group"></i>
                     <span>Gestion des Évaluations</span>
@@ -70,7 +70,7 @@
         </li>
 
         <li>
-            <a href="{{ route('payments.index') }}">
+            <a href="{{ route('payments.index') }}" class="{{isset($page) && $page == 'payment' ? 'active' : '' }}">
                 <div>
                     <i class="fa-solid fa-dollar-sign"></i>
                     <span>Payements</span>
@@ -79,7 +79,7 @@
         </li>
 
         <li>
-            <a href="{{ route('admin.settings.index') }}">
+            <a href="{{ route('admin.settings.index') }}" class="{{isset($page) && $page == 'settings' ? 'active' : '' }}">
                 <div>
                     <i class="fa-solid fa-gear"></i>
                     <span>Paramètres</span>
@@ -91,7 +91,7 @@
         </div>
 
         <li>
-            <a href="{{ route('profile.show') }}">
+            <a href="{{ route('profile.show') }}" class="{{isset($page) && $page == 'profile' ? 'active' : '' }}">
                 <div>
                     <i class="fa-solid fa-user"></i>
                     <span>Mon Profil</span>
@@ -111,9 +111,4 @@
     });
 
 
-    links.forEach(link => {
-        if (link.href === window.location.href) {
-            link.classList.add('active');
-        }
-    });
 </script>

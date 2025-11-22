@@ -15,6 +15,7 @@ class BaremeSettingController extends Controller
     {
 
         return view('admin.settings.notes.baremes.index', [
+            'page' => 'settings',
             'baremes' => Bareme::all(),
         ]);
     }
@@ -24,7 +25,9 @@ class BaremeSettingController extends Controller
      */
     public function create()
     {
-        return view('admin.settings.notes.baremes.create');
+        return view('admin.settings.notes.baremes.create', [
+            'page' => 'settings',
+        ]);
     }
 
     /**
@@ -54,6 +57,7 @@ class BaremeSettingController extends Controller
     public function show(string $id)
     {
         return view('admin.settings.notes.baremes.show', [
+            
             'bareme' => Bareme::find($id),
         ]);
     }
@@ -64,6 +68,7 @@ class BaremeSettingController extends Controller
     public function edit(string $id)
     {
         return view('admin.settings.notes.baremes.edit', [
+            'page' => 'settings',
             'bareme' => Bareme::find($id),
         ]);
     }

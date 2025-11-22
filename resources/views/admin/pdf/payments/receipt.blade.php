@@ -1,11 +1,6 @@
 @php
     $school = \App\Models\SchoolSetting::first();
-    // $allPayments = \App\Models\Payment::where('student_id', $payment->student_id)
-    //     ->where('fee_id', $payment->fee_id)
-    //     ->orderBy('payment_date', 'asc')
-    //     ->get();
-    // $totalPaid = $allPayments->sum('amount');
-    // $remaining = $payment->fee->amount - $totalPaid;
+
 @endphp
 
 <!DOCTYPE html>
@@ -13,119 +8,144 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Reçu de Paiement - {{ strtoupper($school->name) }}</title>
+    <title>Reçu de Paiement - {{ mb_strtoupper($school?->name) }}</title>
     <style>
         body {
             font-family: "Times New Roman", serif;
-            font-size: 12px;
+            font-size: 11px;
+            margin-right: 50px;
+            padding: 0;
         }
 
-        .header {
-            text-align: center;
+        .receipt {
+            width: 100%;
+            min-height: 430px;
+            padding: 25px;
+            position: relative;
+            box-sizing: border-box;
         }
 
-        .school-info {
-            margin-bottom: 15px;
-        }
-
-        .receipt-info {
-            margin: 20px 0;
+        .pay-info {
+            position: absolute;
+            top: 30;
+            right: 40;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            /* padding-right: 50px; */
+            font-size: 10px;
         }
 
         .table th,
         .table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+            border: 1px solid #ccc;
+            padding: 5px;
         }
 
         .table th {
-            background-color: #f2f2f2;
+            background: #f5f5f5;
         }
 
-        .total {
-            font-weight: bold;
-            font-size: 14px;
-        }
 
-        .footer {
+        .cut-line {
+            border-top: 1px dashed #000;
             text-align: center;
+            position: relative;
         }
 
-        .signature {
-            text-align: right;
+        .cut-line span {
+            position: absolute;
+            top: -8px;
+            left: 5px;
+            font-size: 10px;
+            background: white;
+            padding: 0 3px;
+
         }
     </style>
 </head>
 
 <body>
-    <div class="header">
-        <img src="{{ public_path('storage/' . $school->logo) }}" alt="Logo" class="logo" width="150">
-        <h2>{{ strtoupper($school->name) }}</h2>
-        <p>{{ $school->address }} - {{ $school->phone }}</p>
-        <h3>REÇU DE PAIEMENT DE {{ strtoupper($payment->fee->name) }} </h3>
-    </div>
-    <hr style="height: 1px; background-color: #333; border: none;">
+    @foreach (['COPIE CLIENT', 'COPIE ADMINISTRATION'] as $copyType)
+        <div class="receipt">
 
-    <div class="school-info">
-        <p><strong>Année Scolaire:</strong> {{ $school->academic_year }}</p>
-        <p><strong>Date d'émission:</strong> {{ now()->format('d/m/Y H:i') }}</p>
-        <p><strong>N° Reçu:</strong> {{ $payment->reference }}</p>
-    </div>
+            <div class="header"
+                style="display: grid;
+                grid-template-columns: 1fr 1fr;
+                align-items: start;
+                gap: 10px; ">
+                <div class="school-info">
+                    <img src="{{ public_path('storage/' . $school?->logo) }}" alt="" width="120">
+                    <h3>{{ mb_strtoupper($school?->name) }}</h3>
+                    <p><strong>Année scolaire:</strong> {{ $school?->academic_year }}</p>
+                    <p> <b>Adresse : </b>{{ $school?->address }} <b>Tel : </b> {{ $school?->phone }}</p>
+                </div>
 
-    <div class="student-info">
-        <h4>INFORMATIONS ÉLÈVE</h4>
-        <p><strong>Nom & Prénom:</strong> {{ $payment->student->last_name }} {{ $payment->student->first_name }}</p>
-        <p><strong>Niveau:</strong> {{ $payment->student->classroom->level ?? '---' }}</p>
-        <p><strong>Classe:</strong> {{ $payment->student->classroom->name ?? '---' }}
-            {{ $payment->student->classroom->section ?? '---' }}</p>
-    </div>
 
-    <div class="payment-info">
-        <h4>DÉTAILS DES PAIEMENTS</h4>
-        <table class="table">
-            <tr>
-                <th>Date Paiement</th>
-                <th>Mode Paiement</th>
-                <th>Référence</th>
-                <th>Montant</th>
-            </tr>
-            @foreach ($allPayments as $p)
-                <tr @if ($p->id == $payment->id) style="background-color:#e0f7fa;" @endif>
-                    <td>{{ \Carbon\Carbon::parse($p->payment_date)->format('d/m/Y') }}</td>
-                    <td>{{ ucfirst($p->payment_method) }}</td>
-                    <td>{{ $p->reference }}</td>
-                    <td>{{ number_format($p->amount, 0, ',', ' ') }} XOF</td>
+                <div class="pay-info">
+                    <p><strong>Reçu N°:</strong> {{ $payment->reference }} <br>
+                    </p>
+                    <p><strong>Date:</strong> {{ now()->format('d/m/Y H:i') }}</p>
+                    <p><strong>Élève:</strong> {{ $payment->student->last_name }} {{ $payment->student->first_name }}
+                    </p>
+                    <p><strong>Classe:</strong>
+                        {{ $payment->student->classroom->name ?? '' }}
+                        {{ $payment->student->classroom->section ?? '' }}
+                    </p>
+                </div>
+            </div>
+
+            <h3 style="text-align: center">REÇU DE PAIEMENT DE {{ mb_strtoupper($payment->fee->name) }} </h3>
+
+            <table class="table">
+                <tr>
+                    <th>Date</th>
+                    <th>Mode de paiement</th>
+                    <th>Référence</th>
+                    <th>Montant</th>
                 </tr>
-            @endforeach
-        </table>
-    </div>
+                @foreach ($allPayments as $p)
+                    <tr @if ($p->id == $payment->id) style="background:#e7f7ff; text-align: center;" @endif>
+                        <td>{{ \Carbon\Carbon::parse($p->payment_date)->format('d/m/Y') }}</td>
+                        <td>{{ ucfirst($p->payment_method) }}</td>
+                        <td>{{ $p->reference }}</td>
+                        <td>{{ number_format($p->amount, 0, ',', ' ') }} XOF</td>
+                    </tr>
+                @endforeach
+            </table>
 
-    <div class="total">
-        <p>MONTANT DU FRAIS: <strong>{{ number_format($payment->fee->amount, 0, ',', ' ') }} XOF</strong></p>
-        <p>TOTAL PAYÉ: <strong>{{ number_format($totalPaid, 0, ',', ' ') }} XOF</strong></p>
-        @if ($remaining > 0)
-            <p>RESTANT À PAYER: <strong>{{ number_format($remaining, 0, ',', ' ') }} XOF</strong></p>
+            <br />
+            <p><strong>Frais:</strong> {{ number_format($payment->fee->amount, 0, ',', ' ') }} XOF</p>
+            <p><strong>Total payé:</strong> {{ number_format($totalPaid, 0, ',', ' ') }} XOF</p>
+
+            @if ($remaining > 0)
+                <p><strong>Restant:</strong> {{ number_format($remaining, 0, ',', ' ') }} XOF</p>
+            @endif
+
+
+            <p style="text-align:right; margin-top: 20px;">
+                <strong>Le Proviseur</strong><br>
+                {{ $school?->principal }}
+            </p>
+
+
+            <div style="text-align: center">
+                <p><em>Ce reçu est généré le {{ now()->format('d/m/Y à H:i') }}</em></p>
+                <p><em>Merci pour votre confiance</em></p>
+                <p style="font-size: 10px">&copy; {{ date('Y') }} - {{ mb_strtoupper($school?->name) }}</p>
+            </div>
+
+        </div>
+
+        @if (!$loop->last)
+            <div class="cut-line">
+                <span> Découper ici</span>
+            </div>
         @endif
-    </div>
+    @endforeach
 
-    <div class="signature">
-        <br /><br /><br /><br /><br /><br /><br /><br /><br />
-        <p><b>Le Proviseur</b></p>
-        {{ $school->principal }}
-    </div>
-    <br /><br /><br /><br />
-    <div class="footer">
-        <p><em>Ce reçu est généré le {{ now()->format('d/m/Y à H:i') }}</em></p>
-        <p><em>Merci pour votre confiance</em></p>
-        <p style="font-size: 10px">&copy; {{ date('Y') }} - {{ strtoupper($school->name) }}</p>
-    </div>
 </body>
 
 </html>

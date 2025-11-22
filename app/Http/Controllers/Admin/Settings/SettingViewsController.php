@@ -8,12 +8,16 @@ use Illuminate\Http\Request;
 class SettingViewsController extends Controller
 {
     public function settingsIndex() {
-        return view("admin.settings.index");
+        return view("admin.settings.index", [
+            'page' => 'settings',
+        ]);
     }
 
 
     public function noteSettingsIndex() {
-        return view("admin.settings.notes.index");
+        return view("admin.settings.notes.index", [
+            'page' => 'settings',
+        ]);
     }
 
 

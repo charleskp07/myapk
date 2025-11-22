@@ -175,7 +175,7 @@
     @else
         <div style="text-align: center;">
             <p>--Aucune note n'a été enregistré--</p><br />
-            <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
+            <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50" class="empty-icon">
         </div>
     @endif
 

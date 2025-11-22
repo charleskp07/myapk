@@ -16,12 +16,13 @@ return new class extends Migration
     {
         Schema::create('assignations', function (Blueprint $table) {
             $table->id();
-            $table->integer('coefficient');
-            $table->integer('number_of_hours');
+            $table->decimal('coefficient');
+            $table->integer('weekly_hours');
             $table->foreignIdFor(Classroom::class)->onDelete('cascade');
             $table->foreignIdFor(Subject::class)->onDelete('cascade');
             $table->foreignIdFor(Teacher::class)->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

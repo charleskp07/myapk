@@ -26,10 +26,12 @@ return new class extends Migration
                 GenderEnums::FEMININ->value,
             ]);
             $table->string('email')->unique();
+            $table->json('availability')->nullable();
             $table->string('phone')->nullable();
             $table->string('nationality')->default('Togolaise');
             $table->string('speciality');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

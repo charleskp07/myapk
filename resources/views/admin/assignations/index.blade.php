@@ -20,7 +20,7 @@
     @if ($assignations->isEmpty())
         <div style="text-align: center;">
             <p>--Aucune assignation n'a été enregistrée--</p><br />
-            <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
+            <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50" class="empty-icon">
         </div>
     @else
         <div class="datatables-cover">
@@ -60,7 +60,7 @@
                             </td>
                             
                             <td onclick='onRowClick("{{ $assignation->teacher->id }}")'>
-                                {{ $assignation->number_of_hours }} Heures
+                                {{ $assignation->weekly_hours }} Heures
                             </td>
 
                             <td>

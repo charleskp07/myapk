@@ -81,7 +81,7 @@
                         <button type="submit">
                             Enregistre le frais
                         </button>
-                        <a href="{{ route('classrooms.show', $classroom->id) }}">
+                        <a href="avascript:history.back()">
                             Annuler
                         </a>
                     </div>

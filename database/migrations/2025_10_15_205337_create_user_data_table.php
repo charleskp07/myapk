@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->string('profile_picture');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

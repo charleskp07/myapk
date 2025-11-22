@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\Settings\SettingViewsController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\TimetableController;
 use App\Http\Controllers\Auth\Processing\AuthController as ProcessingAuthController;
 use App\Http\Controllers\Auth\Views\AuthController;
 use App\Http\Controllers\MainController;
@@ -76,4 +77,28 @@ Route::middleware(['auth'])->group(function () {
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/photo', [ProfileController::class, 'deleteProfilePicture'])->name('profile.photo.delete');
+
+
+    /*
+|--------------------------------------------------------------------------
+| Timetable Routes
+|--------------------------------------------------------------------------
+*/
+
+    Route::prefix('timetable')->name('timetable.')->group(function () {
+        // Page principale
+        Route::get('/', [TimetableController::class, 'index'])->name('index');
+
+        // Générer l'emploi du temps
+        Route::post('/generate', [TimetableController::class, 'generate'])->name('generate');
+
+        // Obtenir les événements pour FullCalendar
+        Route::get('/events', [TimetableController::class, 'events'])->name('events');
+
+        // Supprimer un emploi du temps
+        Route::delete('/{classroom}', [TimetableController::class, 'destroy'])->name('destroy');
+
+        // Exporter en PDF (optionnel)
+        Route::get('/{classroom}/export', [TimetableController::class, 'export'])->name('export');
+    });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ClassroomLevelEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -57,5 +58,33 @@ class Classroom extends Model
     public function getFullNameAttribute()
     {
         return $this->name . ' ' . $this->section;
+    }
+
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    /**
+     * Obtenir la durée maximale d'un cours selon le niveau
+     */
+    public function getMaxCourseDuration(): int
+    {
+        return $this->level === ClassroomLevelEnums::LYCEE->value ? 2 : 1; // En heures
+    }
+
+    /**
+     * Vérifier si la classe a déjà un cours à ce moment
+     */
+    public function hasConflictAt(string $day, string $startTime, string $endTime): bool
+    {
+        return $this->schedules()
+            ->where('day_of_week', $day)
+            ->where('is_active', true)
+            ->get()
+            ->contains(function ($schedule) use ($day, $startTime, $endTime) {
+                return $schedule->overlaps($day, $startTime, $endTime);
+            });
     }
 }

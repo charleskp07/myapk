@@ -4,6 +4,7 @@
 
 
 @section('content')
+    <a href="javascript:history.back()">Retour</a>
     <h1>
         Paramètres des notes
     </h1>

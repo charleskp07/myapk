@@ -4,6 +4,7 @@
 
 @section('content')
     <div>
+        <a href="javascript:history.back()">Retour</a>
         <div>
             <h2 class="roboto-black text-center">Modifier une appréciation</h2>
             <br />

@@ -51,6 +51,7 @@ class SubjectController extends Controller
         $data = [
             'name' => $request->name,
             'description' => $request->description,
+            'time_preference' => $request->time_preference,
         ];
 
         try {
@@ -95,6 +96,7 @@ class SubjectController extends Controller
         $data = [
             'name' => $request->name,
             'description' => $request->description,
+            'time_preference' => $request->time_preference,
         ];
 
         try {

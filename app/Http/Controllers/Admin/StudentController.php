@@ -66,23 +66,23 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
 
-        $data = [
-            'name' => $request->first_name . ' ' . $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone ? $request->phone : 'Non renseigné',
-            'role' => RoleEnums::STUDENT->value,
-            'password' => '12345678',
-        ];
+        // $data = [
+        //     'name' => $request->first_name . ' ' . $request->last_name,
+        //     'email' => $request->email,
+        //     'phone' => $request->phone ? $request->phone : 'Non renseigné',
+        //     'role' => RoleEnums::STUDENT->value,
+        //     'password' => '12345678',
+        // ];
 
-        try {
+        // try {
 
-            $user = $this->userInterface->store($data);
-        } catch (\Exception $ex) {
-            // return $ex;
-            return back()->withErrors([
-                'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
-            ])->withInput();
-        }
+        //     $user = $this->userInterface->store($data);
+        // } catch (\Exception $ex) {
+        //     // return $ex;
+        //     return back()->withErrors([
+        //         'error' => 'Une erreur est survenue lors du traitement, Réessayez !'
+        //     ])->withInput();
+        // }
 
 
         $file = $request->file('photo');
@@ -90,7 +90,7 @@ class StudentController extends Controller
             $path = $file->store('students', 'public');
 
         $data = [
-            'user_id' => $user->id,
+            // 'user_id' => $user->id,
             'classroom_id' => $request->classroom_id,
             'photo' => $file ? $path : null,
             'first_name' => $request->first_name,

@@ -1,3 +1,8 @@
+@php
+    $school = \App\Models\SchoolSetting::first();
+@endphp
+
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -5,13 +10,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/style2.css') }}"> --}}
     <link rel="stylesheet" href="{{ URL::asset('assets/bootstrap/font/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/datatables/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/datatables/datatables.responsive.min.css') }}">
-
+    <link rel="shortcut icon" href={{ $school?->logo ? URL::asset('storage/' . $school->logo) : "" }} type="image/x-icon">
 
     <title>
         @yield('title', 'Gestion Scolaire')
@@ -51,7 +57,6 @@
         // toggleButton.addEventListener('click', () => {
         //     sidebar.classList.toggle('collapsed');
         // });
-
     </script>
 
 

@@ -28,6 +28,7 @@ return new class extends Migration
                 EvaluationTypeEnums::COMPOSITION->value,
             ]);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

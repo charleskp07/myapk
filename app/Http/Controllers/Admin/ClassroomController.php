@@ -153,7 +153,7 @@ class ClassroomController extends Controller
             ])->withInput();
         }
     }
-
+    
 
     public function statsData(Request $request, $id)
     {
@@ -209,6 +209,7 @@ class ClassroomController extends Controller
         ]);
     }
 
+
     public function exportStudentsListPdf(Request $request) 
     {
 
@@ -218,7 +219,7 @@ class ClassroomController extends Controller
             'classroom' => $classroom,
         ]);
 
-        return $pdf->stream("Bulletin_{$classroom->name}_{$classroom->section}.pdf");
+        return $pdf->stream("Liste_de_la_{$classroom->name}_{$classroom->section}.pdf");
 
     }
 }

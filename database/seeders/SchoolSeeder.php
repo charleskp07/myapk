@@ -59,27 +59,27 @@ class SchoolSeeder extends Seeder
 
 
 
-        // //Création de 20 enseignants
-        // $teachers = collect(range(1, 20))->map(function ($i) {
-        //     $user = User::create([
-        //         'name' => "teacher$i",
-        //         'email' => "teacher$i@example.com",
-        //         'password' => Hash::make('password'),
-        //         'phone' => "+228 XX XX XX XX",
-        //         'role' => RoleEnums::TEACHER->value,
-        //     ]);
+        //Création de 20 enseignants
+        $teachers = collect(range(1, 20))->map(function ($i) {
+            $user = User::create([
+                'name' => "teacher$i",
+                'email' => "teacher$i@example.com",
+                'password' => Hash::make('password'),
+                'phone' => "+228 XX XX XX XX",
+                'role' => RoleEnums::TEACHER->value,
+            ]);
 
-        //     return Teacher::create([
-        //         'user_id' => $user->id,
-        //         'first_name' => "Prof$i",
-        //         'last_name' => "ENSEIGNANT",
-        //         'date_of_birth' => now()->subYears(rand(20, 60)),
-        //         'place_of_birth' => "Ville",
-        //         'email' => $user->email,
-        //         'gender' => [GenderEnums::MASCULIN->value, GenderEnums::FEMININ->value][rand(0, 1)],
-        //         'speciality' => "Discipline $i",
-        //     ]);
-        // });
+            return Teacher::create([
+                'user_id' => $user->id,
+                'first_name' => "Prof$i",
+                'last_name' => "ENSEIGNANT",
+                'date_of_birth' => now()->subYears(rand(20, 60)),
+                'place_of_birth' => "Ville",
+                'email' => $user->email,
+                'gender' => [GenderEnums::MASCULIN->value, GenderEnums::FEMININ->value][rand(0, 1)],
+                'speciality' => "Discipline $i",
+            ]);
+        });
 
 
 
@@ -137,7 +137,7 @@ class SchoolSeeder extends Seeder
 
 
 
-        // //  Création des assignation
+        //  Création des assignation
         // $assignations = collect();
         // foreach ($classrooms as $classroom) {
         //     foreach ($subjects->shuffle()->take(5) as $subject) {

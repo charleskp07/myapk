@@ -8,11 +8,10 @@
         Paramètres
     </h1>
 
-
     <nav>
-        <ul>
+        <ul style="list-style: none">
             <li>
-                <a href="{{route('admin.settings.notes.index')}}">
+                <a href="{{ route('admin.settings.notes.index') }}">
                     <div>
                         Paramétrage des notes
                     </div>
@@ -20,7 +19,7 @@
             </li>
 
             <li>
-                <a href="{{route('admin.breakdowns.index')}}">
+                <a href="{{ route('admin.breakdowns.index') }}">
                     <div>
                         Paramétrage des decoupages annuels
                     </div>
@@ -28,12 +27,14 @@
             </li>
 
             <li>
-                <a href="{{route('admin.schoolsetting.index')}}">
+                <a href="{{ route('admin.schoolsetting.index') }}">
                     <div>
                         Paramétre généraux de l'etablissement
                     </div>
                 </a>
             </li>
         </ul>
+
+        
     </nav>
 @endsection

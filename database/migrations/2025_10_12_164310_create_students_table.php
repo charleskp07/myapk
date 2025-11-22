@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->onDelete('cascade');
+            // $table->foreignIdFor(User::class)->onDelete('cascade');
             $table->foreignIdFor(Classroom::class)->onDelete('cascade');
             $table->string('photo')->nullable();
             $table->string('first_name');
@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('nationality')->default('Togolaise');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

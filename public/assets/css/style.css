@@ -17,6 +17,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 
@@ -201,11 +202,11 @@ a {
 }
 
 
-html,
+/* html,
 body {
     background-color: #D9EFFF;
     font-family: "Roboto", sans-serif;
-}
+} */
 
 
 .input-cover {
@@ -303,8 +304,9 @@ body {
     position: fixed;
     top: 0;
     left: 0;
+    bottom: 0;
     width: 240px;
-    height: 100vh;
+    /* height: 100vh; */
     background: #252627;
     color: #fff;
     display: flex;
@@ -312,11 +314,7 @@ body {
     transition: width 0.3s ease;
     overflow-x: hidden;
     z-index: 999;
-    border-radius: 0 20px 20px 0;
-
-    .collapsed {
-        width: 70px;
-    }
+    border-radius: 0 40px 40px 0;
 
     ul {
         list-style: none;
@@ -373,7 +371,7 @@ body {
 }
 
 .sidebar.collapsed {
-    width: 70px;
+    width: 60px;
 }
 
 
@@ -383,18 +381,16 @@ body {
 
 
 .sidebar.collapsed a div span {
-    display: none;
+    display: none !important;
 }
 
-@media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        width: 60px;
-    }
 
-    .sidebar:not(.collapsed) {
-        width: 230px;
-    }
+.student-info {
+    display: grid;
+    display: -moz-grid;
+    display: -ms-grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 10px;
 }
 
 
@@ -425,17 +421,43 @@ table.customTable thead {
     text-align: center;
 }
 
-
 .text-end {
     text-align: end;
 }
 
-
 .wrap-content {
     position: absolute;
-    left: 270px;
-    top: 0px;
+    top: 0;
+    left: 260px;
     right: 10px;
+    transition: left 0.3s ease;
+}
+
+
+.sidebar.collapsed~.wrap-content {
+    left: 90px;
+}
+
+
+@media(max-width: 1020px) {
+    .student-info {
+        display: grid;
+        display: -moz-grid;
+        display: -ms-grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+    }
+}
+
+
+@media(max-width: 850px) {
+    .student-info {
+        display: grid;
+        display: -moz-grid;
+        display: -ms-grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
 }
 
 @media (max-width: 799px) {
@@ -481,23 +503,36 @@ table.customTable thead {
 }
 
 
+@media (max-width: 680px) {
+    .sidebar {
+        width: 60px !important;
+        /* auto-collapsed */
+    }
 
-@media (max-width: 620px) {
+    .sidebar a div span {
+        display: none !important;
+    }
 
     .wrap-content {
-        position: absolute;
-        left: 80px;
-        top: 0px;
-        right: 10px;
+        left: 80px !important;
     }
 }
 
 
-@media (max-width: 320px) {
+@media (max-width: 380px) {
+
     .auth-form-cover {
 
         >form {
             padding: 25px;
         }
+    }
+
+    .empty-icon {
+        width: 30px !important;
+    }
+
+    h1 {
+        font-size: 25px;
     }
 }

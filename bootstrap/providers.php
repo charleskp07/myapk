@@ -13,5 +13,6 @@ return [
     App\Providers\StudentServiceProvider::class,
     App\Providers\SubjectServiceProvider::class,
     App\Providers\TeacherServiceProvider::class,
+    App\Providers\TimetableGeneratorServiceProvider::class,
     App\Providers\UserServiceProvider::class,
 ];

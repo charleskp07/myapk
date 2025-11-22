@@ -43,9 +43,10 @@
 
 <body>
 
-    <h2 style="text-align: center">Liste des apprenants de la classe de {{ $classroom->name }} {{ $classroom->section }}</h2>
-
+    <h2 style="text-align: center">Liste des apprenants</h2>
     <p style="text-align: center">
+        
+        <b>Classe :</b>{{ $classroom->name }} {{ $classroom->section }}<br />
         <b>Effectif :</b>{{$classroom->students->count()}}
     </p>
 
@@ -61,7 +62,7 @@
                     <th>N°</th>
                     <th>Nom</th>
                     <th>Prénoms</th>
-                    <th>Date de naissance</th>
+                    <th>Date et lieu de naissance</th>
                     <th>Sexe</th>
                     <th></th>
                     <th></th>
@@ -82,7 +83,7 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ strtoupper($student->last_name) }}</td>
                         <td>{{ ucfirst($student->first_name) }}</td>
-                        <td>{{ \Carbon\Carbon::parse($student->birth_date)->format('d/m/Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($student->birth_date)->format('d/m/Y') }} à {{$student->place_of_birth}}</td>
                         <td>{{ $student->gender }}</td>
                         <td></td>
                         <td></td>

@@ -77,7 +77,7 @@ class AssignationController extends Controller
             'subject_id' => $request->subject_id,
             'teacher_id' => $request->teacher_id,
             'coefficient' => $request->coefficient,
-            'number_of_hours' => $request->number_of_hours,
+            'weekly_hours' => $request->weekly_hours,
         ];
 
         try {
@@ -127,7 +127,7 @@ class AssignationController extends Controller
             'subject_id' => $request->subject_id,
             'teacher_id' => $request->teacher_id,
             'coefficient' => $request->coefficient,
-            'number_of_hours' => $request->number_of_hours,
+            'weekly_hours' => $request->weekly_hours,
         ];
 
         try {

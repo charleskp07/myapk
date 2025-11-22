@@ -32,6 +32,7 @@ class PaymentController extends Controller
     public function index()
     {
         return view('admin.payments.index', [
+            'page' => 'payment',
             'payments' => $this->paymentInterface->index(),
         ]);
     }
@@ -56,6 +57,7 @@ class PaymentController extends Controller
         });
 
         return view('admin.payments.create', [
+            'page' => 'payment',
             'students' => $this->studentInterface->index(),
             'student_id' => $request->student_id,
             'student' => $student,
@@ -125,6 +127,7 @@ class PaymentController extends Controller
     public function edit(string $id)
     {
         return view('admin.payments.edit', [
+            'page' => 'payment',
             'payment' => $this->paymentInterface->show($id),
             'students' => $this->studentInterface->index(),
         ]);

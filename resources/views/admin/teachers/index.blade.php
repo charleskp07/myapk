@@ -22,7 +22,7 @@
     @if ($teachers->isEmpty())
         <div style="text-align: center;">
             <p>--Aucun(e) enseignant(e) n'a été enregistré(e)--</p><br />
-            <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
+            <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50" class="empty-icon">
         </div>
     @else
         <div class="datatables-cover">

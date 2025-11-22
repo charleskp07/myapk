@@ -15,9 +15,11 @@
         <h1>{{ $student->last_name }} {{ $student->first_name }}</h1>
 
         <br />
-        <div style="display: flex; gap: 20px;">
-            <img src="{{ $student->photo_url }}" alt="{{ $student->full_name }}" width="200"
-                style="border-radius: 20px; aspect-ratio: 1/1;">
+        <div class="student-info">
+            <div>
+                <img src="{{ $student->photo_url }}" alt="{{ $student->full_name }}" width="200"
+                    style="border-radius: 20px; aspect-ratio: 1/1;">
+            </div>
 
             <div>
                 <p>
@@ -72,7 +74,7 @@
                         </a> --}}
                         <a href="{{ route('admin.bulletin.pdf', ['student_id' => $student->id, 'breakdown_id' => $breakdown->id]) }}"
                             target="_blank">
-                            Télécharger le Bulletin du {{ $breakdown->type }} {{ $breakdown->value }} ( Version PDF)
+                            Télécharger le Bulletin du {{ $breakdown->type }} {{ $breakdown->value }}
                         </a>
                         <br />
                     @endforeach
@@ -109,7 +111,8 @@
         @if ($student->payments->isEmpty())
             <div style="text-align: center">
                 <p>--Aucune paiement enregistrée pour cet apprenant--</p>
-                <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50px">
+                <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50px"
+                    class="empty-icon">
             </div>
         @else
             <table id="paymentDatatables" style="width:100%; border-collapse: collapse;text-align: center;">
@@ -234,7 +237,8 @@
         @else
             <div style="text-align: center">
                 <p>--Aucune note enregistrée pour cet apprenant--</p>
-                <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50px">
+                <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50px"
+                    class="empty-icon">
             </div>
         @endif
     </div>

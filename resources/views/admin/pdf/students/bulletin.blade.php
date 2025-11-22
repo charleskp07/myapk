@@ -1,3 +1,7 @@
+@php
+    $school = \App\Models\SchoolSetting::first();
+@endphp
+
 <!DOCTYPE html>
 <html>
 
@@ -92,7 +96,7 @@
     <div class="bulletin-container">
 
         <div style="text-align: center;">
-            <img src="{{ public_path('images/Lycee.png') }}" alt="" width="150">
+            <img src="{{ public_path('storage/' . $school->logo) }}" alt="" width="100">
         </div>
         <br /><br />
         <div class="bulletin-header">
@@ -100,7 +104,7 @@
             <p><b>Travail - Liberté - Patrie</b></p>
             <p><b>DIRECTION RÉGIONALE DE L'ÉDUCATION</b></p>
             <p><b>ENSEIGNEMENT SECONDAIRE</b></p>
-            <h4><b>LYCÉE AYIMOLOU</b></h4>
+            <h4><b>{{ mb_strtoupper($school->name) }}</b></h4>
             <p>Année scolaire : {{ '2024 - 2025' }}</p>
             <h4>Bulletin d'évaluation du {{ $breakdown->type }} {{ $breakdown->value }}</h4>
         </div>
@@ -229,9 +233,9 @@
 
                 @if ($moyenneAnnuel)
                     <p>
-                        @if ($student->classroom->level === app\Enums\ClassroomLevelEnums::LYCEE->value )
-                            <b>Moyenne 1er Semestre : </b>  {{ number_format($moyenneSem1, 2) }}/20 <br />
-                            <b>Moyenne 2eme Semestre : </b>  {{ number_format($moyenneGenerale, 2) }}/20
+                        @if ($student->classroom->level === app\Enums\ClassroomLevelEnums::LYCEE->value)
+                            <b>Moyenne 1er Semestre : </b> {{ number_format($moyenneSem1, 2) }}/20 <br />
+                            <b>Moyenne 2eme Semestre : </b> {{ number_format($moyenneGenerale, 2) }}/20
                         @endif
                     </p>
                     <p><b>Moyenne annuelle :</b> {{ number_format($moyenneAnnuel, 2) }}/20</p>
@@ -239,22 +243,26 @@
                 @endif
 
             </div>
-
+            <br /><br />
             <div class="signatures">
                 <p><b>Le Professeur Principal</b></p>
-                <p>{{ $student->classroom->teacher->last_name }} {{ $student->classroom->teacher->first_name }}</p>
+                @if ($student->classroom && $student->classroom->teacher)
+                    {{ $student->classroom->teacher->last_name }} {{ $student->classroom->teacher->first_name }}
+                @else
+                    
+                @endif
             </div>
         </div>
 
-        <br /><br /><br /><br /><br /><br /><br />
-
+        <br /><br /><br /><br /><br />
         <p class="page-footer">
             Fait à Lomé le {{ now()->format('d/m/Y') }}
         </p>
 
         <br /><br />
         <p style="text-align: center">
-            Le Provieur
+            <b>Le Provieur</b><br>
+            {{ $school?->principal }}
         </p>
 
     </div>

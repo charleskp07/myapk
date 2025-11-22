@@ -16,6 +16,7 @@ class AppreciationSettingController extends Controller
     public function index()
     {
         return view('admin.settings.notes.appreciations.index', [
+            'page' => 'settings',
             'baremes' => NoteAppreciation::all(),
         ]);
     }
@@ -28,6 +29,7 @@ class AppreciationSettingController extends Controller
 
         $bareme = Bareme::find($request->bareme_id);
         return view('admin.settings.notes.appreciations.create', [
+            'page' => 'settings',
             'baremes' => Bareme::all(),
             'bareme_id' => $request->bareme_id,
             'bareme' => $bareme,
@@ -67,6 +69,7 @@ class AppreciationSettingController extends Controller
     public function edit(string $id)
     {
         return view('admin.settings.notes.appreciations.edit', [
+            'page' => 'settings',
             'baremes' => Bareme::all(),
             'appreciation' => NoteAppreciation::find($id),
         ]);

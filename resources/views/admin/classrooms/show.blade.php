@@ -47,6 +47,12 @@
                 <a href="{{ route('admin.list.students.pdf', ['classroom_id' => $classroom->id]) }}" target="_blank">
                     Telecharger la liste des apprenants (Version PDF)
                 </a>
+
+                <br />
+
+                <a href="{{ route('timetable.index', $classroom->id) }}" target="_blank">
+                   Emploie du temps
+                </a>
             </p>
         </div>
 
@@ -66,13 +72,13 @@
                 <div style="text-align: center">
                     <p>Aucun Frais n'est associé(e) à la {{ $classroom->name }} {{ $classroom->section }}</p>
                     <br />
-                    <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
+                    <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50" class="empty-icon">
                 </div>
             @else
                 <table class="fees-table" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                     <thead>
                         <tr style="background: #f3f4f6; text-align: left;">
-                            <th style="padding: 10px;">#</th>
+                            <th style="padding: 10px;"></th>
                             <th style="padding: 10px;">Nom du frais</th>
                             <th style="padding: 10px;">Montant</th>
                             <th style="padding: 10px;">Actions</th>
@@ -86,7 +92,8 @@
                                 <td style="padding: 8px;">{{ number_format($fee->amount, 0, ',', ' ') }} XOF</td>
                                 <td style="padding: 8px;">
                                     <a href="{{ route('fees.edit', $fee->id) }}"
-                                        style="color: #2563eb; text-decoration: none;">Modifier</a>
+                                        style="color: #2563eb; text-decoration: none;">
+                                        <i class="fa-regular fa-pen-to-square"></i>Modifier</a>
                                     {{-- <form action="{{ route('fees.destroy', $fee->id) }}" method="POST"
                                         style="display: inline;">
                                         @csrf
@@ -131,7 +138,7 @@
                 <div style="text-align: center">
                     <p>Aucun(e) apprenant(e) n'est associé(e) à la {{ $classroom->name }} {{ $classroom->section }}</p>
                     <br />
-                    <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
+                    <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50" class="empty-icon">
                 </div>
             @else
                 <div class="datatables-cover">
@@ -234,7 +241,7 @@
                 <div style="text-align: center">
                     <p>Aucun(e) assignation n'a été enregistrée pour la {{ $classroom->name }} {{ $classroom->section }}
                     </p><br />
-                    <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
+                    <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50" class="empty-icon">
                 </div>
             @else
                 <div class="datatable-cover">
@@ -267,7 +274,7 @@
                                     </td>
 
                                     <td onclick='onTeacherClick("{{ $assignation->teacher->id }}")'>
-                                        {{ $assignation->number_of_hours }} Heures
+                                        {{ $assignation->weekly_hours }} Heures
                                     </td>
 
 
@@ -329,7 +336,7 @@
                 <div style="text-align: center">
                     <p>Aucun(e) évaluation n'a été enregistrée pour la {{ $classroom->name }} {{ $classroom->section }}
                     </p><br />
-                    <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50">
+                    <img src="{{ asset('images/icons/trash-empty-svgrepo-com.png') }}" alt="" width="50" class="empty-icon">
                 </div>
             @else
                 <div class="datatable-cover">
@@ -433,6 +440,18 @@
                 <canvas id="classChart"></canvas>
             </div>
         </div>
+
+        <br />
+        <br />
+        <br />
+        <div>
+            <div>
+                <h2>Plannings des cours</h2>
+            </div>
+
+            
+        </div>
+
 
     </div>
 @endsection

@@ -63,6 +63,7 @@ class AdminController extends Controller
 
 
         return view("admin.dashboard", [
+            'page' => 'dashboard',
             'classrooms' => $this->classroomInterface->index(),
             'teachers' => $this->teacherInterface->index(),
             'students' => $students,

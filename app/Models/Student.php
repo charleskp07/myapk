@@ -14,7 +14,7 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        // 'user_id',
         'classroom_id',
         'photo',
         'first_name',
@@ -27,10 +27,10 @@ class Student extends Model
         'nationality',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+    // public function user(): BelongsTo
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
 
     public function classroom(): BelongsTo
     {
@@ -58,10 +58,6 @@ class Student extends Model
     }
 
 
-    public function getFullNameAttribute()
-    {
-        return $this->user->first_name . ' ' . $this->user->last_name;
-    }
 
     public function getAgeAttribute()
     {

@@ -15,6 +15,7 @@ class BreakdownSettingController extends Controller
     public function index()
     {
         return view('admin.settings.breakdowns.index', [
+            'page' => 'settings',
             'breakdowns' => Breakdown::all(),
         ]);
     }
@@ -24,7 +25,9 @@ class BreakdownSettingController extends Controller
      */
     public function create()
     {
-        return view('admin.settings.breakdowns.create');
+        return view('admin.settings.breakdowns.create',[
+            'page' => 'settings',
+        ]);
     }
 
     /**
@@ -65,6 +68,7 @@ class BreakdownSettingController extends Controller
     public function edit(string $id)
     {
         return view('admin.settings.breakdowns.edit', [
+            'page' => 'settings',
             'breakdown' => Breakdown::find($id),
         ]);
     }

@@ -6,9 +6,9 @@
 
     <div>
         <div>
-            <h2 class="roboto-black text-center">Créer une nouvelle assignation</h2>
+            <h2>Créer une nouvelle assignation</h2>
             <br />
-            <p class="text-center">
+            <p>
                 Sélectionnez un enseignant, une matière et une classe à associer ensemble.
             </p>
             <br />
@@ -37,12 +37,14 @@
                 <div class="input-cover">
                     <label for="teacher_id">Enseignant </label>
                     <select id="teacher_id" name="teacher_id" class="@error('teacher_id') invalid @enderror">
-                        <option value="">-- Sélectionner un enseignant --</option>
-                        @foreach ($teachers as $teacher)
+                        <option value="">Sélectionner un enseignant</option>
+                        @forelse ($teachers as $teacher)
                             <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
-                                {{ strtoupper($teacher->last_name )}} {{ $teacher->first_name }}
+                                {{ strtoupper($teacher->last_name) }} {{ $teacher->first_name }}
                             </option>
-                        @endforeach
+                        @empty
+                            <option value="">aucun enseignant n'a été trouvé</option>
+                        @endforelse
                     </select>
 
                 </div>
@@ -51,12 +53,14 @@
                 <div class="input-cover">
                     <label for="subject_id">Matière </label>
                     <select id="subject_id" name="subject_id">
-                        <option value="">-- Sélectionner une matière --</option>
-                        @foreach ($subjects as $subject)
+                        <option value=""> Sélectionner une matière </option>
+                        @forelse ($subjects as $subject)
                             <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
                                 {{ $subject->name }}
                             </option>
-                        @endforeach
+                        @empty
+                            <option value="">aucune matière n'a été trouvé</option>
+                        @endforelse
                     </select>
 
                 </div>
@@ -65,13 +69,17 @@
                 <div class="input-cover">
                     <label for="classroom_id">Classe </label>
                     <select id="classroom_id" name="classroom_id">
-                        <option value="">-- Sélectionner une classe --</option>
-                        @foreach ($classrooms as $classroom)
+                        <option value=""> Sélectionner une classe </option>
+
+                        @forelse ($classrooms as $classroom)
                             <option value="{{ $classroom->id }}"
                                 {{ (isset($classroom_id) && $classroom_id == $classroom->id) || old('classroom_id') == $classroom->id ? 'selected' : '' }}>
                                 {{ $classroom->name }} - {{ $classroom->section }}
                             </option>
-                        @endforeach
+                        @empty
+                            <option value="">aucune salle de classe n'a été trouvé</option>
+                        @endforelse
+                        
                     </select>
 
                 </div>
@@ -85,15 +93,16 @@
                 </div>
 
                 <div class="input-cover">
-                    <label for="number_of_hours">Nombre d'heure de cours </label>
-                    <input type="number" id="number_of_hours" name="number_of_hours" value="{{ old('number_of_hours', 1) }}"
-                        min="1" max="6" placeholder="Valeur entre 1 et 6">
+                    <label for="weekly_hours">Nombre d'heure de cours </label>
+                    <input type="number" id="weekly_hours" name="weekly_hours"
+                        value="{{ old('weekly_hours', 1) }}" min="1" max="6"
+                        placeholder="Valeur entre 1 et 6">
 
                 </div>
 
                 <div style="display:flex; gap:10px; margin-top:20px;">
                     <button type="submit"> Créer l'assignation</button>
-                    <a href="{{ route('assignations.index') }}" class="btn-cancel">Annuler</a>
+                    <a href="javascript:history.back()" class="btn-cancel">Annuler</a>
                 </div>
             </form>
         </div>

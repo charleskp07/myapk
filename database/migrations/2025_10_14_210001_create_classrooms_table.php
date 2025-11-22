@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->index(['level', 'name']);
             $table->index('section');
-
+            $table->softDeletes();
 
             // $table->unique(['level', 'name', 'section']);
         });

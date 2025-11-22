@@ -17,13 +17,14 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Classroom::class)->onDelete('cascade');
             $table->string('name');
-            $table->decimal('amount', 10, 2); 
+            $table->decimal('amount', 10, 2);
             $table->enum('type', [
                 FeeTypeEnums::OBLIGATOIRE->value,
                 FeeTypeEnums::OPTIONNEL->value,
             ])->default(FeeTypeEnums::OBLIGATOIRE->value);
             $table->date('deadline')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

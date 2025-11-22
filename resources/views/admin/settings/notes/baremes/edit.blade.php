@@ -4,6 +4,7 @@
 
 @section('content')
     <div>
+        <a href="javascript:history.back()">Retour</a>
         <div>
             <h2 class="roboto-black text-center">Modifier le barème</h2>
             <br />

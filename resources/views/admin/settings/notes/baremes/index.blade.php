@@ -4,6 +4,7 @@
 
 
 @section('content')
+    <a href="javascript:history.back()">Retour</a>
     <div>
         <h1>Barèmes</h1>
 

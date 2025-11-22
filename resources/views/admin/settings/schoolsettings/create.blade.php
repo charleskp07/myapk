@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="dashboard-cover">
+        <a href="javascript:history.back()">Retour</a>
         <div>
             <h2>Paramètres généraux de l'établissement</h2>
             <br />
